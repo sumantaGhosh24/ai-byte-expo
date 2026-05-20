@@ -3,6 +3,8 @@ import { useCallback } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import * as Sentry from "@sentry/react-native";
+import Button from "@/components/ui/button";
 
 export default function Index() {
   const { colorScheme, toggleColorScheme } = useColorScheme();
@@ -19,6 +21,12 @@ export default function Index() {
       <Text className="text-base text-gray-600">
         This is a dummy index screen using NativeWind.
       </Text>
+      <Button
+        title="Try!"
+        onPress={() => {
+          Sentry.captureException(new Error("First error"));
+        }}
+      />
       <View>
         <TouchableOpacity
           className="mb-2 flex-row items-center rounded-lg p-4"
