@@ -2,6 +2,7 @@ import { useColorScheme } from "nativewind";
 import { useCallback } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Index() {
   const { colorScheme, toggleColorScheme } = useColorScheme();
@@ -11,7 +12,7 @@ export default function Index() {
   }, [toggleColorScheme]);
 
   return (
-    <View className="flex-1 items-center justify-center bg-blue-50 dark:bg-black">
+    <SafeAreaView className="flex-1 items-center justify-center bg-blue-50 dark:bg-black">
       <Text className="mb-2 text-2xl font-bold text-primary">
         Welcome to AI Byte Expo!
       </Text>
@@ -70,6 +71,6 @@ export default function Index() {
           )}
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
