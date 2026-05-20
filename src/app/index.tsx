@@ -1,10 +1,10 @@
-import {useColorScheme} from "nativewind";
-import {useCallback} from "react";
-import {Text, TouchableOpacity, View} from "react-native";
-import {Ionicons} from "@expo/vector-icons";
+import { useColorScheme } from "nativewind";
+import { useCallback } from "react";
+import { Text, TouchableOpacity, View } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function Index() {
-  const {colorScheme, toggleColorScheme} = useColorScheme();
+  const { colorScheme, toggleColorScheme } = useColorScheme();
 
   const handleToggleColorScheme = useCallback(() => {
     toggleColorScheme();
@@ -12,7 +12,7 @@ export default function Index() {
 
   return (
     <View className="flex-1 items-center justify-center bg-blue-50 dark:bg-black">
-      <Text className="text-2xl font-bold mb-2 text-primary">
+      <Text className="mb-2 text-2xl font-bold text-primary">
         Welcome to AI Byte Expo!
       </Text>
       <Text className="text-base text-gray-600">
@@ -20,7 +20,7 @@ export default function Index() {
       </Text>
       <View>
         <TouchableOpacity
-          className="flex-row items-center p-4 rounded-lg mb-2"
+          className="mb-2 flex-row items-center rounded-lg p-4"
           style={{
             backgroundColor: colorScheme === "light" ? "#e5e5e5" : "#1f2937",
           }}
@@ -32,7 +32,7 @@ export default function Index() {
             size={24}
             color={colorScheme === "dark" ? "white" : "black"}
           />
-          <Text className="text-lg ml-3 dark:text-white">
+          <Text className="ml-3 text-lg dark:text-white">
             Light {colorScheme === "light" && "(Active)"}
           </Text>
           {colorScheme === "light" && (
@@ -40,12 +40,12 @@ export default function Index() {
               name="checkmark-circle"
               size={20}
               color="#155dfc"
-              style={{marginLeft: "auto"}}
+              style={{ marginLeft: "auto" }}
             />
           )}
         </TouchableOpacity>
         <TouchableOpacity
-          className="flex-row items-center p-4 rounded-lg mb-2"
+          className="mb-2 flex-row items-center rounded-lg p-4"
           style={{
             backgroundColor: colorScheme === "dark" ? "#1f2937" : "#e5e5e5",
           }}
@@ -57,7 +57,7 @@ export default function Index() {
             size={24}
             color={colorScheme === "dark" ? "white" : "black"}
           />
-          <Text className="text-lg ml-3 dark:text-white">
+          <Text className="ml-3 text-lg dark:text-white">
             Dark {colorScheme === "dark" && "(Active)"}
           </Text>
           {colorScheme === "dark" && (
@@ -65,7 +65,7 @@ export default function Index() {
               name="checkmark-circle"
               size={20}
               color="#155dfc"
-              style={{marginLeft: "auto"}}
+              style={{ marginLeft: "auto" }}
             />
           )}
         </TouchableOpacity>
