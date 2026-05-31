@@ -11,7 +11,7 @@ export default function AuthRoutesLayout() {
   }
 
   if (isSignedIn) {
-    return <Redirect href="/(app)/home" />;
+    return <Redirect href="/home" />;
   }
 
   return (
@@ -19,6 +19,8 @@ export default function AuthRoutesLayout() {
       <Stack>
         <Stack.Screen name="sign-up" options={{ headerShown: false }} />
         <Stack.Screen name="sign-in" options={{ headerShown: false }} />
+        <Stack.Screen name="terms" options={{ headerShown: false }} />
+        <Stack.Screen name="privacy" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="auto" />
     </SafeAreaView>

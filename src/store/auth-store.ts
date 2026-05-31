@@ -11,6 +11,7 @@ type UserState = {
   resetOnboarding: () => void;
   hasUserCompletedOnboarding: boolean;
   setUserHasCompletedOnboarding: () => void;
+  resetUserOnboarding: () => void;
   _hasHydrated: boolean;
   setHasHydrated: (value: boolean) => void;
 };
@@ -23,6 +24,7 @@ export const useAuthStore = create(
       resetOnboarding: () => set({ hasCompletedOnboarding: false }),
       hasUserCompletedOnboarding: false,
       setUserHasCompletedOnboarding: () => set({ hasCompletedOnboarding: true }),
+      resetUserOnboarding: () => set({ hasUserCompletedOnboarding: false }),
       _hasHydrated: false,
       setHasHydrated: (value) => set({ _hasHydrated: value }),
     }),

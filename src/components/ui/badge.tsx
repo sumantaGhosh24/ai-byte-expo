@@ -1,18 +1,7 @@
-import { ReactNode } from "react";
+import { memo, ReactNode, useMemo } from "react";
 import { Text, View, ViewProps } from "react-native";
 
 import { cn } from "@/lib/cn";
-
-interface BadgeProps extends ViewProps {
-  label: string;
-  variant?: "primary" | "success" | "warning" | "danger" | "secondary";
-  size?: "sm" | "md" | "lg";
-  leftIcon?: ReactNode;
-  rightIcon?: ReactNode;
-  className?: string;
-  textClassName?: string;
-  outline?: boolean;
-}
 
 const badgeVariants = {
   primary: {
@@ -45,7 +34,7 @@ const badgeVariants = {
     text: "text-neutral-700 dark:text-neutral-300",
     solidText: "text-white",
   },
-};
+} as const;
 
 const sizeStyles = {
   sm: {
@@ -63,50 +52,71 @@ const sizeStyles = {
     text: "text-sm",
     gap: "gap-2",
   },
-};
+} as const;
 
-const Badge = ({
-  label,
-  variant = "primary",
-  size = "md",
-  leftIcon,
-  rightIcon,
-  className,
-  textClassName,
-  outline = true,
-  ...props
-}: BadgeProps) => {
-  const currentVariant = badgeVariants[variant];
-  const currentSize = sizeStyles[size];
+interface BadgeProps extends ViewProps {
+  label: string;
+  variant?: keyof typeof badgeVariants;
+  size?: keyof typeof sizeStyles;
+  leftIcon?: ReactNode;
+  rightIcon?: ReactNode;
+  className?: string;
+  textClassName?: string;
+  outline?: boolean;
+  numberOfLines?: number;
+}
 
-  return (
-    <View
-      accessibilityRole="text"
-      accessibilityLabel={label}
-      className={cn(
-        "flex-row items-center self-start rounded-full",
-        currentSize.container,
-        currentSize.gap,
-        outline ? currentVariant.soft : currentVariant.solid,
-        className
-      )}
-      {...props}
-    >
-      {leftIcon}
-      <Text
-        numberOfLines={1}
-        className={cn(
+const Badge = memo(
+  ({
+    label,
+    variant = "primary",
+    size = "md",
+    leftIcon,
+    rightIcon,
+    className,
+    textClassName,
+    outline = true,
+    numberOfLines = 1,
+    ...props
+  }: BadgeProps) => {
+    const currentVariant = badgeVariants[variant];
+    const currentSize = sizeStyles[size];
+
+    const containerClass = useMemo(
+      () =>
+        cn(
+          "flex-row items-center self-start rounded-full",
+          currentSize.container,
+          currentSize.gap,
+          outline ? currentVariant.soft : currentVariant.solid,
+          className
+        ),
+      [currentSize, currentVariant, outline, className]
+    );
+
+    const labelClass = useMemo(
+      () =>
+        cn(
           "font-semibold tracking-wide",
           currentSize.text,
           outline ? currentVariant.text : currentVariant.solidText,
           textClassName
-        )}
-      >
-        {label}
-      </Text>
-      {rightIcon}
-    </View>
-  );
-};
+        ),
+      [currentSize, currentVariant, outline, textClassName]
+    );
+
+    return (
+      <View accessible accessibilityLabel={label} className={containerClass} {...props}>
+        {leftIcon}
+        <Text numberOfLines={numberOfLines} className={labelClass}>
+          {label}
+        </Text>
+        {rightIcon}
+      </View>
+    );
+  }
+);
+
+Badge.displayName = "Badge";
 
 export default Badge;

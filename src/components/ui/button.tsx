@@ -1,119 +1,173 @@
+import { memo, ReactNode, useCallback } from "react";
 import {
   ActivityIndicator,
+  GestureResponderEvent,
   Pressable,
   Text,
   View,
-  GestureResponderEvent,
 } from "react-native";
-import { ReactNode } from "react";
+
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from "react-native-reanimated";
 
 import { cn } from "@/lib/cn";
 
-interface ButtonProps {
-  title: string;
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+
+const PRESS_SPRING = {
+  damping: 18,
+  stiffness: 300,
+} as const;
+
+const variantStyles = {
+  primary: "bg-primary",
+  secondary: "bg-neutral-100 border border-neutral-200",
+  outline: "border border-primary bg-transparent",
+  warning: "bg-amber-500",
+  danger: "bg-red-500",
+  success: "bg-green-500",
+} as const;
+
+const textStyles = {
+  primary: "text-white",
+  secondary: "text-neutral-900",
+  outline: "text-primary",
+  warning: "text-white",
+  danger: "text-white",
+  success: "text-white",
+} as const;
+
+const sizeStyles = {
+  sm: "min-h-10 px-4",
+  md: "min-h-12 px-5",
+  lg: "min-h-14 px-6",
+} as const;
+
+const spinnerColors = {
+  primary: "#FFFFFF",
+  secondary: "#171717",
+  outline: "#1447e6",
+  warning: "#FFFFFF",
+  danger: "#FFFFFF",
+  success: "#FFFFFF",
+} as const;
+
+export interface ButtonProps {
+  title?: string;
+  children?: ReactNode;
   onPress?: (event: GestureResponderEvent) => void;
   loading?: boolean;
   disabled?: boolean;
-  variant?: "primary" | "secondary" | "outline" | "warning" | "danger" | "success";
-  size?: "sm" | "md" | "lg";
+  variant?: keyof typeof variantStyles;
+  size?: keyof typeof sizeStyles;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
   className?: string;
   textClassName?: string;
   accessibilityLabel?: string;
-  children?: ReactNode;
   fullWidth?: boolean;
 }
 
-const variantStyles = {
-  primary: "bg-primary",
-  secondary: "bg-[#111827] border border-border",
-  outline: "border border-primary bg-transparent",
-  warning: "bg-amber-500/90",
-  danger: "bg-red-500/90",
-  success: "bg-green-500/90",
-};
+const Button = memo(
+  ({
+    title,
+    children,
+    onPress,
+    loading = false,
+    disabled = false,
+    variant = "primary",
+    size = "md",
+    leftIcon,
+    rightIcon,
+    className,
+    textClassName,
+    accessibilityLabel,
+    fullWidth = true,
+  }: ButtonProps) => {
+    const isDisabled = disabled || loading;
 
-const textStyles = {
-  primary: "text-white",
-  secondary: "text-primary",
-  outline: "text-primary",
-  warning: "text-white",
-  danger: "text-white",
-  success: "text-white",
-};
+    const scale = useSharedValue(1);
 
-const sizeStyles = {
-  sm: "h-9 px-4",
-  md: "h-12 px-5",
-  lg: "h-14 px-6",
-};
+    const animatedStyle = useAnimatedStyle(() => {
+      return {
+        transform: [{ scale: scale.value }],
+      };
+    });
 
-const spinnerColors = {
-  primary: "#ffffff",
-  secondary: "#6366f1",
-  outline: "#6366f1",
-  warning: "#ffffff",
-  danger: "#ffffff",
-  success: "#ffffff",
-};
+    const handlePressIn = useCallback(() => {
+      scale.value = withSpring(0.97, PRESS_SPRING);
+    }, [scale]);
 
-const Button = ({
-  title,
-  onPress,
-  loading = false,
-  disabled = false,
-  variant = "primary",
-  size = "md",
-  leftIcon,
-  rightIcon,
-  className,
-  textClassName,
-  accessibilityLabel,
-  children,
-  fullWidth = true,
-}: ButtonProps) => {
-  const spinnerColor = spinnerColors[variant];
+    const handlePressOut = useCallback(() => {
+      scale.value = withSpring(1, PRESS_SPRING);
+    }, [scale]);
 
-  return (
-    <Pressable
-      onPress={onPress}
-      accessibilityRole="button"
-      accessibilityLabel={accessibilityLabel || title}
-      disabled={disabled || loading}
-      className={cn(
-        "flex-row items-center justify-center rounded-xl",
-        variantStyles[variant],
-        sizeStyles[size],
-        (disabled || loading) && "opacity-50",
-        className
-      )}
-    >
-      {loading ? (
-        <ActivityIndicator color={spinnerColor} />
-      ) : (
-        <View className="flex-row items-center justify-center">
-          {leftIcon && <View className="mr-2">{leftIcon}</View>}
-          {children ? (
-            children
-          ) : (
-            <Text
-              numberOfLines={1}
-              ellipsizeMode="tail"
-              className={cn(
-                "text-base font-semibold",
-                textStyles[variant],
-                textClassName
-              )}
-            >
-              {title}
-            </Text>
-          )}
-          {rightIcon && <View className="ml-2">{rightIcon}</View>}
-        </View>
-      )}
-    </Pressable>
-  );
-};
+    return (
+      <AnimatedPressable
+        onPress={onPress}
+        disabled={isDisabled}
+        onPressIn={handlePressIn}
+        onPressOut={handlePressOut}
+        style={animatedStyle}
+        hitSlop={{
+          top: 8,
+          bottom: 8,
+          left: 8,
+          right: 8,
+        }}
+        android_ripple={{
+          borderless: false,
+        }}
+        accessibilityRole="button"
+        accessibilityLabel={accessibilityLabel ?? title}
+        accessibilityState={{
+          disabled: isDisabled,
+          busy: loading,
+        }}
+        className={cn(
+          "overflow-hidden rounded-xl",
+          "flex-row items-center justify-center",
+          variantStyles[variant],
+          sizeStyles[size],
+          fullWidth && "w-full",
+          isDisabled && "opacity-60",
+          className
+        )}
+      >
+        {loading ? (
+          <ActivityIndicator color={spinnerColors[variant]} />
+        ) : (
+          <>
+            {leftIcon && (
+              <View className={cn("items-center justify-center", title && "mr-2")}>
+                {leftIcon}
+              </View>
+            )}
+            {children ?? (
+              <Text
+                numberOfLines={1}
+                className={cn(
+                  "shrink text-base font-semibold",
+                  textStyles[variant],
+                  textClassName
+                )}
+              >
+                {title}
+              </Text>
+            )}
+            {rightIcon && (
+              <View className="ml-2 items-center justify-center">{rightIcon}</View>
+            )}
+          </>
+        )}
+      </AnimatedPressable>
+    );
+  }
+);
+
+Button.displayName = "Button";
 
 export default Button;

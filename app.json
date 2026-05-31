@@ -50,7 +50,8 @@
           "project": "ai-byte-expo",
           "organization": "sumanta-ghosh"
         }
-      ]
+      ],
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true,

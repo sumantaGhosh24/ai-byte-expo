@@ -1,7 +1,7 @@
-export const onboardingSwiperData = [
+export const welcomeSwiperData = [
   {
     id: 1,
-    image: require("@/assets/images/onboarding/onboarding-1.png"),
+    image: require("@/assets/images/welcome/welcome-1.png"),
     title: "Learn Smarter with AI",
     shortDescription: "Personalized micro-learning powered by AI.",
     description:
@@ -9,7 +9,7 @@ export const onboardingSwiperData = [
   },
   {
     id: 2,
-    image: require("@/assets/images/onboarding/onboarding-2.png"),
+    image: require("@/assets/images/welcome/welcome-2.png"),
     title: "Quick Lessons. Real Skills.",
     shortDescription: "Learn in minutes, not hours.",
     description:
@@ -17,7 +17,7 @@ export const onboardingSwiperData = [
   },
   {
     id: 3,
-    image: require("@/assets/images/onboarding/onboarding-3.png"),
+    image: require("@/assets/images/welcome/welcome-3.png"),
     title: "Interactive Quizzes & Challenges",
     shortDescription: "Practice what you learn instantly.",
     description:
@@ -25,7 +25,7 @@ export const onboardingSwiperData = [
   },
   {
     id: 4,
-    image: require("@/assets/images/onboarding/onboarding-4.png"),
+    image: require("@/assets/images/welcome/welcome-4.png"),
     title: "Track Your Learning Journey",
     shortDescription: "Stay motivated with progress insights.",
     description:
@@ -33,7 +33,7 @@ export const onboardingSwiperData = [
   },
   {
     id: 5,
-    image: require("@/assets/images/onboarding/onboarding-5.png"),
+    image: require("@/assets/images/welcome/welcome-5.png"),
     title: "Learn Anytime, Anywhere",
     shortDescription: "Your classroom fits in your pocket.",
     description:

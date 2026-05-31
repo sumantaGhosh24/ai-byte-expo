@@ -1,4 +1,3 @@
-import { View } from "react-native";
 import { useColorScheme } from "nativewind";
 import { useCallback } from "react";
 import { Ionicons } from "@expo/vector-icons";
@@ -13,21 +12,20 @@ const ToggleThemeIcon = () => {
   }, [toggleColorScheme]);
 
   return (
-    <View>
-      <Button
-        title=""
-        onPress={handleToggleColorScheme}
-        leftIcon={
-          <Ionicons
-            name={colorScheme === "dark" ? "moon" : "sunny"}
-            size={24}
-            color={colorScheme === "dark" ? "white" : "black"}
-          />
-        }
-        className="max-w-fit"
-        variant="outline"
-      />
-    </View>
+    <Button
+      title=""
+      onPress={handleToggleColorScheme}
+      leftIcon={
+        <Ionicons
+          name={colorScheme === "dark" ? "moon" : "sunny"}
+          size={24}
+          color={colorScheme === "dark" ? "white" : "black"}
+        />
+      }
+      className="max-w-fit"
+      variant="outline"
+      fullWidth={false}
+    />
   );
 };
 

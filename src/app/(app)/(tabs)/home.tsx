@@ -2,7 +2,7 @@ import { Show, useUser, useClerk } from "@clerk/expo";
 import { Link } from "expo-router";
 import { Text, View, Pressable, StyleSheet } from "react-native";
 
-export default function Page() {
+export default function HomeScreen() {
   const { user } = useUser();
   const { signOut } = useClerk();
 

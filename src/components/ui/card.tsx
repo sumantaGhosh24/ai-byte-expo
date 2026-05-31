@@ -1,16 +1,7 @@
-import { ReactNode } from "react";
+import { memo, ReactNode, useMemo } from "react";
 import { View, ViewProps } from "react-native";
 
 import { cn } from "@/lib/cn";
-
-interface CardProps extends ViewProps {
-  children: ReactNode;
-  className?: string;
-  shadow?: boolean;
-  bordered?: boolean;
-  padding?: number;
-  radius?: "sm" | "md" | "lg" | "xl" | "2xl";
-}
 
 const radiusStyles = {
   sm: "rounded-md",
@@ -18,41 +9,63 @@ const radiusStyles = {
   lg: "rounded-2xl",
   xl: "rounded-3xl",
   "2xl": "rounded-[32px]",
-};
+} as const;
 
 const paddingStyles = {
-  0: "p-0",
-  8: "p-2",
-  12: "p-3",
-  16: "p-4",
-  20: "p-5",
-  24: "p-6",
+  none: "p-0",
+  sm: "p-2",
+  md: "p-4",
+  lg: "p-5",
+  xl: "p-6",
+  "2xl": "p-8",
+} as const;
+
+const shadowStyles = {
+  none: "",
+  sm: "shadow-sm shadow-black/10",
+  md: "shadow-md shadow-black/15",
+} as const;
+
+type CardProps = ViewProps & {
+  children: ReactNode;
+  className?: string;
+  shadow?: keyof typeof shadowStyles;
+  bordered?: boolean;
+  padding?: keyof typeof paddingStyles;
+  radius?: keyof typeof radiusStyles;
 };
 
-const Card = ({
+function CardComponent({
   children,
   className,
-  shadow = true,
+  shadow = "sm",
   bordered = true,
-  padding = 16,
+  padding = "md",
   radius = "lg",
   ...props
-}: CardProps) => {
-  return (
-    <View
-      className={cn(
-        "w-full bg-white dark:bg-neutral-900",
+}: CardProps) {
+  const classes = useMemo(
+    () =>
+      cn(
+        "w-full overflow-hidden bg-white dark:bg-neutral-900",
         radiusStyles[radius],
+        paddingStyles[padding],
+        shadowStyles[shadow],
         bordered && "border border-neutral-200 dark:border-neutral-800",
-        shadow && "shadow-sm shadow-black/10 dark:shadow-black/40",
-        paddingStyles[padding as keyof typeof paddingStyles],
         className
-      )}
-      {...props}
-    >
+      ),
+    [bordered, className, padding, radius, shadow]
+  );
+
+  return (
+    <View className={classes} {...props}>
       {children}
     </View>
   );
-};
+}
+
+const Card = memo(CardComponent);
+
+Card.displayName = "Card";
 
 export default Card;
