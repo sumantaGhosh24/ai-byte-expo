@@ -64,8 +64,49 @@ export interface PublicProfileResponse {
       currentStreak: number;
       longestStreak: number;
     };
-    lastEnroll: unknown | null;
-    lastProgress: unknown | null;
+    lastEnroll: {
+      id: string;
+      userId: string;
+      completed: boolean;
+      finishedLessons: number;
+      startedAt: Date;
+      finishedAt: Date | null;
+      course: {
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        description: string;
+        title: string;
+        thumbnailUrl: string | null;
+        thumbnailPublicId: string | null;
+        duration: string;
+        aiGenerated: boolean;
+        categoryId: string;
+      };
+    } | null;
+    lastProgress: {
+      id: string;
+      userId: string;
+      completed: boolean;
+      startedAt: Date;
+      finishedAt: Date | null;
+      lessonId: string;
+      lesson: {
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        courseId: string;
+        title: string;
+        content: string;
+        thumbnailUrl: string | null;
+        thumbnailPublicId: string | null;
+        videoUrl: string | null;
+        videoPublicId: string | null;
+        duration: string;
+        aiGenerated: boolean;
+        orderIndex: number;
+      };
+    } | null;
     xp: {
       lessonXP: number;
       courseXP: number;

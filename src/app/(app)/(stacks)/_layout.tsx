@@ -19,11 +19,11 @@ const StackLayout = () => {
         <Stack.Screen name="bookmarks" options={{ title: "My Bookmarks" }} />
         <Stack.Screen name="my-courses" options={{ title: "My Courses" }} />
         <Stack.Screen name="my-reviews" options={{ title: "My Reviews" }} />
-        <Stack.Screen name="my-reviews" options={{ title: "My Quiz Attempts" }} />
-        <Stack.Screen name="settings/account" options={{ title: "Update Profile" }} />
+        <Stack.Screen name="my-quiz-attempts" options={{ title: "My Quiz Attempts" }} />
+        <Stack.Screen name="settings/account" options={{ title: "Update Account" }} />
         <Stack.Screen
           name="settings/preferences"
-          options={{ title: "Update Profile Preferences" }}
+          options={{ title: "Profile Preferences" }}
         />
         <Stack.Screen name="course/[id]/index" options={{ title: "Course" }} />
         <Stack.Screen name="course/[id]/lessons" options={{ title: "Lessons" }} />
