@@ -9,20 +9,21 @@ export type AchievementType =
 
 export interface Achievement {
   id: string;
-  name: string;
+  title: string;
   description: string;
   badgeImage: string;
   badgeImagePublicId: string;
   achievementType: AchievementType;
   achievementRarity: AchievementRarity;
   createdAt: string;
+  updatedAt: string;
 }
 
 export interface UserAchievement {
   id: string;
+  unlockedAt: string;
   userId: string;
   achievementId: string;
-  unlockedAt: string;
   achievement: Achievement;
 }
 

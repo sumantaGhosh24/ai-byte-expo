@@ -237,7 +237,7 @@ const ProfileForm = memo(({ profile }: ProfileProps) => {
       contentContainerStyle={{ flexGrow: 1 }}
       showsVerticalScrollIndicator={false}
     >
-      <View className="px-5 py-8">
+      <View className="flex-1 px-5 py-8">
         <View className={`gap-6 ${isTablet ? "flex-row items-start" : ""}`}>
           <Animated.View
             entering={FadeInDown.delay(100)}
