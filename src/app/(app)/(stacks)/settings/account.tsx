@@ -1,12 +1,15 @@
-import { View, Text } from "react-native";
-import React from "react";
+import { useProfile } from "@/hooks/use-profile";
+import ProfileForm from "@/components/profile/profile-form";
+import ProfileFormSkeleton from "@/components/profile/profile-form-skeleton";
 
 const AccountScreen = () => {
-  return (
-    <View>
-      <Text>Account</Text>
-    </View>
-  );
+  const { data, isLoading, isFetching } = useProfile();
+
+  if (isLoading || isFetching) {
+    return <ProfileFormSkeleton />;
+  }
+
+  return <ProfileForm profile={data?.user?.profile} />;
 };
 
 export default AccountScreen;

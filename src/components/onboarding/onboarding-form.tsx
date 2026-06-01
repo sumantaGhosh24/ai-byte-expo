@@ -32,8 +32,9 @@ import Card from "../ui/card";
 import SettingSwitch from "../ui/setting-switch";
 import ProgressBar from "../ui/progress";
 
-type Props = {
+type ProfileProps = {
   profile?: Profile | null;
+  header?: boolean;
 };
 
 const INTERESTS = [
@@ -62,7 +63,7 @@ type FormValues = ProfilePreferencesFormValues;
 type GoalType = FormValues["goals"][number];
 type InterestType = FormValues["interests"][number];
 
-const OnboardingForm = memo(({ profile }: Props) => {
+const OnboardingForm = memo(({ profile, header = true }: ProfileProps) => {
   const updatePreferences = useUpdateProfilePreferences();
 
   const { width } = useWindowDimensions();
@@ -125,38 +126,43 @@ const OnboardingForm = memo(({ profile }: Props) => {
     [goals, setValue]
   );
 
-  const onSubmit = async (values: ProfilePreferencesFormValues) => {
-    updatePreferences.mutate(values, {
-      onSuccess: (data) => {
-        Toast.show({
-          type: "success",
-          text1: "Success",
-          text2: data.message,
-        });
-      },
-      onError: (error) => {
-        Toast.show({
-          type: "error",
-          text1: "Error",
-          text2: error?.message,
-        });
-      },
-    });
-  };
+  const onSubmit = useCallback(
+    (values: ProfilePreferencesFormValues) => {
+      updatePreferences.mutate(values, {
+        onSuccess: (data) => {
+          Toast.show({
+            type: "success",
+            text1: "Success",
+            text2: data.message,
+          });
+        },
+        onError: (error) => {
+          Toast.show({
+            type: "error",
+            text1: "Error",
+            text2: error?.message,
+          });
+        },
+      });
+    },
+    [updatePreferences]
+  );
 
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <View className={`px-5 py-8 ${isTablet ? "mx-auto max-w-3xl" : ""}`}>
-        <Animated.View entering={FadeInDown.delay(100)}>
-          <View className="mb-8">
-            <Text className="text-3xl font-bold text-neutral-900 dark:text-white">
-              Personalize your learning
-            </Text>
-            <Text className="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
-              Help us build your perfect learning path.
-            </Text>
-          </View>
-        </Animated.View>
+        {header && (
+          <Animated.View entering={FadeInDown.delay(100)}>
+            <View className="mb-8">
+              <Text className="text-3xl font-bold text-neutral-900 dark:text-white">
+                Personalize your learning
+              </Text>
+              <Text className="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
+                Help us build your perfect learning path.
+              </Text>
+            </View>
+          </Animated.View>
+        )}
         <Animated.View entering={FadeInDown.delay(150)}>
           <Card radius="xl" padding="lg">
             <View className="gap-4">
