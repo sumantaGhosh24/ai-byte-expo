@@ -46,35 +46,37 @@ export interface ProfileResponse {
 
 export interface PublicProfileResponse {
   success: boolean;
-  user: User;
-  stats: {
-    enrollsCount: number;
-    progressCount: number;
-    finishedCoursesCount: number;
-    finishedLessonsCount: number;
-    totalQuizAttempts: number;
-    totalAnswerSubmissions: number;
-    averageScore: number;
-    highestScore: number;
-    lowestScore: number;
-    totalBookmarks: number;
-    achievementsCount: number;
-    totalNotifications: number;
-    currentStreak: number;
-    longestStreak: number;
-  };
-  lastEnroll: unknown | null;
-  lastProgress: unknown | null;
-  xp: {
-    lessonXP: number;
-    courseXP: number;
-    quizXP: number;
-    bookmarkXP: number;
-    onboardingXP: number;
-    firstLoginXP: number;
-    achievementXP: number;
-    streakXP: number;
-    totalXP: number;
+  user: {
+    user: User;
+    stats: {
+      enrollsCount: number;
+      progressCount: number;
+      finishedCoursesCount: number;
+      finishedLessonsCount: number;
+      totalQuizAttempts: number;
+      totalAnswerSubmissions: number;
+      averageScore: number;
+      highestScore: number;
+      lowestScore: number;
+      totalBookmarks: number;
+      achievementsCount: number;
+      totalNotifications: number;
+      currentStreak: number;
+      longestStreak: number;
+    };
+    lastEnroll: unknown | null;
+    lastProgress: unknown | null;
+    xp: {
+      lessonXP: number;
+      courseXP: number;
+      quizXP: number;
+      bookmarkXP: number;
+      onboardingXP: number;
+      firstLoginXP: number;
+      achievementXP: number;
+      streakXP: number;
+      totalXP: number;
+    };
   };
 }
 

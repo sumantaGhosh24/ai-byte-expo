@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { useAuth } from "@clerk/expo";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import type { AxiosResponse } from "axios";
@@ -52,6 +53,23 @@ export function usePublicProfile(userId: string) {
     retry: false,
     enabled: !!userId && isLoaded && isSignedIn,
   });
+}
+
+export function useUserGamification() {
+  const userId = useCurrentUserId();
+
+  const { data, isLoading } = usePublicProfile(userId ?? "");
+
+  return useMemo(() => {
+    const xp = data?.user?.xp?.totalXP ?? 0;
+
+    return {
+      level: Math.floor(xp / 1000) + 1,
+      xp,
+      streak: data?.user?.stats?.currentStreak ?? 0,
+      isLoading,
+    };
+  }, [data, isLoading]);
 }
 
 export function useUpdateProfile() {

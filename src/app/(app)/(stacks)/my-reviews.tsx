@@ -1,12 +1,12 @@
 import { View, Text } from "react-native";
 import React from "react";
 
-const ProgressScreen = () => {
+const ReviewsScreen = () => {
   return (
     <View>
-      <Text>Progress</Text>
+      <Text>Reviews</Text>
     </View>
   );
 };
 
-export default ProgressScreen;
+export default ReviewsScreen;

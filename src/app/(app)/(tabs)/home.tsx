@@ -1,7 +1,9 @@
 import { Show, useUser } from "@clerk/expo";
 import { Link } from "expo-router";
 import { Text, View, Pressable, StyleSheet } from "react-native";
+
 import { useLogout } from "@/hooks/use-logout";
+import ToggleThemeIcon from "@/components/global/toggle-theme-icon";
 
 export default function HomeScreen() {
   const { user } = useUser();
@@ -25,6 +27,7 @@ export default function HomeScreen() {
           <Text style={styles.buttonText}>Sign out</Text>
         </Pressable>
       </Show>
+      <ToggleThemeIcon />
     </View>
   );
 }
