@@ -1,5 +1,6 @@
 import { useClerk } from "@clerk/expo";
 import { router } from "expo-router";
+import Toast from "react-native-toast-message";
 
 import { queryClient } from "@/lib/react-query";
 import { useAuthStore } from "@/store/auth-store";
@@ -10,13 +11,29 @@ export function useLogout() {
   const { resetUserOnboarding } = useAuthStore();
 
   async function logout() {
-    await signOut();
+    try {
+      await queryClient.cancelQueries();
 
-    resetUserOnboarding();
+      queryClient.clear();
 
-    queryClient.clear();
+      resetUserOnboarding();
 
-    router.replace("/(auth)/sign-in");
+      await signOut();
+
+      Toast.show({
+        type: "success",
+        text1: "Success",
+        text2: "Logged out successfully",
+      });
+
+      router.replace("/(auth)/sign-in");
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: error instanceof Error ? error?.message : "Failed to logout",
+      });
+    }
   }
 
   return {

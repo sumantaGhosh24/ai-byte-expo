@@ -1,4 +1,4 @@
-import { useAuth } from "@clerk/react";
+import { useAuth } from "@clerk/expo";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import type { AxiosResponse } from "axios";
 

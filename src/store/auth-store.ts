@@ -23,7 +23,7 @@ export const useAuthStore = create(
       setHasCompletedOnboarding: () => set({ hasCompletedOnboarding: true }),
       resetOnboarding: () => set({ hasCompletedOnboarding: false }),
       hasUserCompletedOnboarding: false,
-      setUserHasCompletedOnboarding: () => set({ hasCompletedOnboarding: true }),
+      setUserHasCompletedOnboarding: () => set({ hasUserCompletedOnboarding: true }),
       resetUserOnboarding: () => set({ hasUserCompletedOnboarding: false }),
       _hasHydrated: false,
       setHasHydrated: (value) => set({ _hasHydrated: value }),

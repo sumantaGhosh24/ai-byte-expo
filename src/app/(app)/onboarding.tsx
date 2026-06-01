@@ -1,18 +1,37 @@
-import { View, Text, Pressable } from "react-native";
+import { useEffect } from "react";
+import { router } from "expo-router";
 
-import { useLogout } from "@/hooks/use-logout";
+import { useProfile } from "@/hooks/use-profile";
+import { useAuthStore } from "@/store/auth-store";
+import OnboardingSkeleton from "@/components/onboarding/onboarding-skeleton";
+import OnboardingForm from "@/components/onboarding/onboarding-form";
 
 const OnboardingScreen = () => {
-  const { logout } = useLogout();
+  const { data, isLoading, isFetching } = useProfile();
 
-  return (
-    <View>
-      <Text>Onboarding</Text>
-      <Pressable onPress={() => logout()}>
-        <Text>Sign out</Text>
-      </Pressable>
-    </View>
-  );
+  const { setUserHasCompletedOnboarding } = useAuthStore();
+
+  useEffect(() => {
+    if (!data?.user.profile) {
+      return;
+    }
+
+    if (data.user.profile.onboardingCompleted) {
+      setUserHasCompletedOnboarding();
+
+      router.replace("/home");
+    }
+  }, [data, setUserHasCompletedOnboarding]);
+
+  if (isLoading || isFetching) {
+    return <OnboardingSkeleton />;
+  }
+
+  if (data?.user.profile?.onboardingCompleted) {
+    return null;
+  }
+
+  return <OnboardingForm profile={data?.user.profile} />;
 };
 
 export default OnboardingScreen;

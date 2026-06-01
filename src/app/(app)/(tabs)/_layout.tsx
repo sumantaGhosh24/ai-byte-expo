@@ -9,14 +9,14 @@ const TabLayout = () => {
   return (
     <Tabs
       screenOptions={{
-        headerStyle: { backgroundColor: "#1D4ED8" },
+        headerStyle: { backgroundColor: "#1447e6" },
         headerTitleStyle: { color: "#fff", fontWeight: "600" },
         headerTintColor: "#fff",
         tabBarActiveTintColor: "#fff",
         tabBarInactiveTintColor: "#fff",
         tabBarHideOnKeyboard: true,
         tabBarStyle: {
-          backgroundColor: "#1D4ED8",
+          backgroundColor: "#1447e6",
           borderTopWidth: 0,
           height: 60 + insets.bottom,
           paddingBottom: insets.bottom,

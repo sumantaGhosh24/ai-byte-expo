@@ -1,4 +1,4 @@
-import { useAuth } from "@clerk/react";
+import { useAuth } from "@clerk/expo";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import type { AxiosResponse } from "axios";
 
@@ -28,6 +28,12 @@ export function useProfile() {
     retry: false,
     enabled: isLoaded && isSignedIn,
   });
+}
+
+export function useCurrentUserId() {
+  const { data: profileData } = useProfile();
+
+  return profileData?.user?.id;
 }
 
 export function usePublicProfile(userId: string) {

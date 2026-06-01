@@ -1,4 +1,4 @@
-import { useAuth } from "@clerk/react";
+import { useAuth } from "@clerk/expo";
 import { AxiosError, create } from "axios";
 import { useMemo } from "react";
 

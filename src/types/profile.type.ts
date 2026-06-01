@@ -33,6 +33,7 @@ export interface User {
   id: string;
   email: string;
   clerkId: string;
+  role: "user" | "admin";
   profile: Profile | null;
   createdAt: string;
   updatedAt: string;

@@ -4,7 +4,6 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import Animated, { FadeInDown } from "react-native-reanimated";
 
 import Card from "../ui/card";
-import ToggleThemeIcon from "../global/toggle-theme-icon";
 
 type AuthLayoutProps = {
   title: string;
@@ -33,16 +32,13 @@ const AuthLayout = memo(({ title, description, children }: AuthLayoutProps) => {
               maxWidth: isTablet ? 520 : undefined,
             }}
           >
-            <View className="flex-row items-start justify-between">
-              <View className="flex-1 gap-2">
-                <Text className="text-3xl font-bold text-neutral-900 dark:text-white">
-                  {title}
-                </Text>
-                <Text className="text-sm text-neutral-500 dark:text-neutral-400">
-                  {description}
-                </Text>
-              </View>
-              <ToggleThemeIcon />
+            <View>
+              <Text className="text-3xl font-bold text-neutral-900 dark:text-white">
+                {title}
+              </Text>
+              <Text className="text-sm text-neutral-500 dark:text-neutral-400">
+                {description}
+              </Text>
             </View>
             {children}
           </Card>

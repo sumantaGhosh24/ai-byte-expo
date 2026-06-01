@@ -1,10 +1,12 @@
-import { Show, useUser, useClerk } from "@clerk/expo";
+import { Show, useUser } from "@clerk/expo";
 import { Link } from "expo-router";
 import { Text, View, Pressable, StyleSheet } from "react-native";
+import { useLogout } from "@/hooks/use-logout";
 
 export default function HomeScreen() {
   const { user } = useUser();
-  const { signOut } = useClerk();
+
+  const { logout } = useLogout();
 
   return (
     <View style={styles.container}>
@@ -19,7 +21,7 @@ export default function HomeScreen() {
       </Show>
       <Show when="signed-in">
         <Text>Hello {user?.emailAddresses[0].emailAddress}</Text>
-        <Pressable style={styles.button} onPress={() => signOut()}>
+        <Pressable style={styles.button} onPress={logout}>
           <Text style={styles.buttonText}>Sign out</Text>
         </Pressable>
       </Show>
