@@ -35,7 +35,7 @@ const AchievementsScreen = () => {
 
   const userId = user?.user?.id;
 
-  const { data, isLoading, isFetching, refetch } = useUserAchievements(userId ?? "");
+  const { data, isLoading, isRefetching, refetch } = useUserAchievements(userId ?? "");
 
   const achievements = useMemo(() => data?.achievements ?? [], [data]);
 
@@ -56,8 +56,9 @@ const AchievementsScreen = () => {
       data={filteredAchievements}
       numColumns={isTablet ? 3 : 2}
       key={isTablet ? "tablet" : "mobile"}
+      keyExtractor={(item) => item.id}
       contentContainerStyle={{ padding: 20 }}
-      refreshControl={<RefreshControl refreshing={isFetching} onRefresh={refetch} />}
+      refreshControl={<RefreshControl refreshing={isRefetching} onRefresh={refetch} />}
       ListHeaderComponent={
         <View className="mb-6">
           <Animated.Text

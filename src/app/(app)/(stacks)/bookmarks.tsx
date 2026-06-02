@@ -126,6 +126,7 @@ const BookmarksScreen = () => {
             horizontal
             data={categories}
             showsHorizontalScrollIndicator={false}
+            keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <CategoryChip
                 item={item}

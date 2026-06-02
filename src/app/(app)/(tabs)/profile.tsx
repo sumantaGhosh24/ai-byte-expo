@@ -19,7 +19,7 @@ const ProfileScreen = () => {
   const {
     data: profileData,
     isLoading: profileLoading,
-    isFetching: profileFetching,
+    isRefetching: profileRefetching,
     refetch: profileRefetch,
   } = useProfile();
 
@@ -28,13 +28,13 @@ const ProfileScreen = () => {
   const {
     data: publicData,
     isLoading: publicLoading,
-    isFetching: publicFetching,
+    isRefetching: publicRefetching,
     refetch: publicRefetch,
   } = usePublicProfile(userId ?? "");
 
   const loading = profileLoading || publicLoading;
 
-  const isRefetching = profileFetching || publicFetching;
+  const isRefetching = profileRefetching || publicRefetching;
 
   const handleRefresh = useCallback(() => {
     profileRefetch();

@@ -7,7 +7,7 @@ import OnboardingSkeleton from "@/components/onboarding/onboarding-skeleton";
 import OnboardingForm from "@/components/onboarding/onboarding-form";
 
 const OnboardingScreen = () => {
-  const { data, isLoading, isFetching } = useProfile();
+  const { data, isLoading } = useProfile();
 
   const { setUserHasCompletedOnboarding } = useAuthStore();
 
@@ -23,7 +23,7 @@ const OnboardingScreen = () => {
     }
   }, [data, setUserHasCompletedOnboarding]);
 
-  if (isLoading || isFetching) {
+  if (isLoading) {
     return <OnboardingSkeleton />;
   }
 

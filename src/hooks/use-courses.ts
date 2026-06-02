@@ -116,6 +116,7 @@ export function useBookmarkCourses({
 }
 
 export function useRecommendedCourses({
+  page = 1,
   limit = 10,
   search = "",
   categoryId,
@@ -125,15 +126,14 @@ export function useRecommendedCourses({
 
   const { isLoaded, isSignedIn } = useAuth();
 
-  return useInfiniteQuery<CoursesResponse>({
-    queryKey: ["recommended-courses", limit, search, categoryId, difficulty],
-    initialPageParam: 1,
-    queryFn: async ({ pageParam }) => {
+  return useQuery<CoursesResponse>({
+    queryKey: ["recommended-courses", page, limit, search, categoryId, difficulty],
+    queryFn: async () => {
       const response: AxiosResponse<CoursesResponse> = await api.get(
         "/courses/recommended",
         {
           params: {
-            page: pageParam,
+            page,
             limit,
             search,
             categoryId,
@@ -143,16 +143,13 @@ export function useRecommendedCourses({
       );
       return response.data;
     },
-    getNextPageParam: (lastPage) => {
-      return lastPage.result.paginations.nextPage ?? undefined;
-    },
-    staleTime: 1000 * 60 * 5,
     retry: false,
     enabled: isLoaded && isSignedIn,
   });
 }
 
 export function useTrendingCourses({
+  page = 1,
   limit = 10,
   search = "",
   categoryId,
@@ -162,15 +159,14 @@ export function useTrendingCourses({
 
   const { isLoaded, isSignedIn } = useAuth();
 
-  return useInfiniteQuery<CoursesResponse>({
-    queryKey: ["trending-courses", limit, search, categoryId, difficulty],
-    initialPageParam: 1,
-    queryFn: async ({ pageParam }) => {
+  return useQuery<CoursesResponse>({
+    queryKey: ["trending-courses", page, limit, search, categoryId, difficulty],
+    queryFn: async () => {
       const response: AxiosResponse<CoursesResponse> = await api.get(
         "/courses/trending",
         {
           params: {
-            page: pageParam,
+            page,
             limit,
             search,
             categoryId,
@@ -180,10 +176,6 @@ export function useTrendingCourses({
       );
       return response.data;
     },
-    getNextPageParam: (lastPage) => {
-      return lastPage.result.paginations.nextPage ?? undefined;
-    },
-    staleTime: 1000 * 60 * 5,
     retry: false,
     enabled: isLoaded && isSignedIn,
   });

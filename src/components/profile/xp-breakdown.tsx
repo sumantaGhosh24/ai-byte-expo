@@ -83,6 +83,7 @@ const XPBreakdown = memo(({ xp }: XPBreakdownProps) => {
       <Text className="text-lg font-bold dark:text-white">XP Sources</Text>
       <FlashList
         data={xpItems}
+        keyExtractor={(item) => item.title}
         scrollEnabled={false}
         numColumns={isTablet ? 2 : 1}
         renderItem={({

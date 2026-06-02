@@ -127,6 +127,7 @@ export default function HomeScreen() {
           <FlashList
             horizontal
             data={categories}
+            keyExtractor={(item) => item.id}
             showsHorizontalScrollIndicator={false}
             renderItem={({ item }) => (
               <CategoryChip

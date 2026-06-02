@@ -3,9 +3,9 @@ import OnboardingSkeleton from "@/components/onboarding/onboarding-skeleton";
 import OnboardingForm from "@/components/onboarding/onboarding-form";
 
 const PreferencesScreen = () => {
-  const { data, isLoading, isFetching } = useProfile();
+  const { data, isLoading } = useProfile();
 
-  if (isLoading || isFetching) {
+  if (isLoading) {
     return <OnboardingSkeleton />;
   }
 

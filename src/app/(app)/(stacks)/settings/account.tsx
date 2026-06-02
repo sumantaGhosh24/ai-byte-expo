@@ -3,9 +3,9 @@ import ProfileForm from "@/components/profile/profile-form";
 import ProfileFormSkeleton from "@/components/profile/profile-form-skeleton";
 
 const AccountScreen = () => {
-  const { data, isLoading, isFetching } = useProfile();
+  const { data, isLoading } = useProfile();
 
-  if (isLoading || isFetching) {
+  if (isLoading) {
     return <ProfileFormSkeleton />;
   }
 
