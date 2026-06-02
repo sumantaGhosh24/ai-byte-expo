@@ -47,9 +47,7 @@ const TabLayout = () => {
     <Tabs
       screenOptions={{
         headerShadowVisible: false,
-        headerStyle: {
-          backgroundColor: bg,
-        },
+        headerStyle: { backgroundColor: bg },
         headerTitleStyle: {
           fontWeight: "700",
           color: isDark ? "#fff" : "#111827",

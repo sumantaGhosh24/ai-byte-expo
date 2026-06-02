@@ -97,7 +97,7 @@ const Badge = memo(
     const labelClass = useMemo(
       () =>
         cn(
-          "font-semibold tracking-wide",
+          "font-semibold tracking-wide uppercase truncate",
           currentSize.text,
           outline ? currentVariant.text : currentVariant.solidText,
           textClassName

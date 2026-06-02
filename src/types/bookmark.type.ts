@@ -11,35 +11,6 @@ export interface BookmarkItem {
   userId: string;
   courseId: string;
   createdAt: string;
-  updatedAt: string;
-}
-
-export interface CategoryItem {
-  id: string;
-  name: string;
-  imageUrl: string;
-  imagePublicId: string;
-  visibility: "public" | "private";
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface CourseItem {
-  id: string;
-  title: string;
-  description: string;
-  thumbnailUrl: string;
-  thumbnailPublicId: string;
-  visibility: "public" | "private";
-  status: "pending" | "processing" | "completed" | "failed";
-  categoryId: string;
-  category: CategoryItem;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface BookmarkWithCourse extends BookmarkItem {
-  course: CourseItem;
 }
 
 export interface BookmarkResponse {
@@ -49,7 +20,6 @@ export interface BookmarkResponse {
 
 export interface CreateBookmarkResponse {
   success: boolean;
-  bookmark: BookmarkWithCourse;
   message: string;
 }
 

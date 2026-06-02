@@ -1,5 +1,5 @@
 import { useAuth } from "@clerk/expo";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import type { AxiosResponse } from "axios";
 
 import type {
@@ -11,7 +11,6 @@ import type {
 import { useApi } from "./use-api";
 
 export function usePublicCourses({
-  page = 1,
   limit = 10,
   search = "",
   categoryId,
@@ -21,12 +20,13 @@ export function usePublicCourses({
 
   const { isLoaded, isSignedIn } = useAuth();
 
-  return useQuery<CoursesResponse>({
-    queryKey: ["public-courses", page, limit, search, categoryId, difficulty],
-    queryFn: async () => {
+  return useInfiniteQuery<CoursesResponse>({
+    queryKey: ["public-courses", limit, search, categoryId, difficulty],
+    initialPageParam: 1,
+    queryFn: async ({ pageParam }) => {
       const response: AxiosResponse<CoursesResponse> = await api.get("/courses/public", {
         params: {
-          page,
+          page: pageParam,
           limit,
           search,
           categoryId,
@@ -35,6 +35,10 @@ export function usePublicCourses({
       });
       return response.data;
     },
+    getNextPageParam: (lastPage) => {
+      return lastPage.result.paginations.nextPage ?? undefined;
+    },
+    staleTime: 1000 * 60 * 5,
     retry: false,
     enabled: isLoaded && isSignedIn,
   });

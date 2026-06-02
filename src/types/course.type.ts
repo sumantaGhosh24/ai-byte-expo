@@ -1,3 +1,5 @@
+import { CategoryItem } from "./category.type";
+
 export interface Pagination {
   page: number;
   limit: number;
@@ -18,14 +20,6 @@ export interface UseCoursesParams {
   difficulty?: CourseDifficulty;
 }
 
-export interface CourseCategory {
-  id: string;
-  name: string;
-  imageUrl: string;
-  imagePublicId: string;
-  visibility: "public" | "private";
-}
-
 export interface CourseItem {
   id: string;
   title: string;
@@ -37,7 +31,7 @@ export interface CourseItem {
   status: string;
   createdAt: string;
   updatedAt: string;
-  category: CourseCategory;
+  category: CategoryItem;
   lessonsCount: number;
   quizzesCount: number;
   enrollsCount: number;

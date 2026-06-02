@@ -1,30 +1,11 @@
-import type { CategoryItem } from "./category.type";
-
-export type CourseCategory = CategoryItem;
-
-export interface EnrollCourse {
-  id: string;
-  title: string;
-  slug: string;
-  thumbnailUrl: string;
-  category: CourseCategory;
-}
-
 export interface EnrollItem {
   id: string;
-  userId: string;
-  courseId: string;
-
   completed: boolean;
   finishedLessons: number;
-
   startedAt: string;
   finishedAt: string | null;
-
-  createdAt: string;
-  updatedAt: string;
-
-  course?: EnrollCourse;
+  userId: string;
+  courseId: string;
 }
 
 export interface CreateEnrollPayload {
