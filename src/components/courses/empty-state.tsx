@@ -13,7 +13,7 @@ const EmptyState = ({ onReset }: EmptyStateProps) => {
     <View className="px-6 py-20">
       <Card className="items-center gap-4">
         <BookOpen size={48} color="#9ca3af" />
-        <Text className="text-xl font-bold">No Courses Found</Text>
+        <Text className="text-xl font-bold dark:text-white">No Courses Found</Text>
         <Text className="text-center text-neutral-500">Try changing filters.</Text>
         <Button title="Reset Filters" onPress={onReset} />
       </Card>
