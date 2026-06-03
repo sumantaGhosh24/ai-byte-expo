@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useMemo } from "react";
 import { Pressable, Text, View } from "react-native";
 import { router } from "expo-router";
 import { Image } from "expo-image";
@@ -21,6 +21,22 @@ const CourseCard = memo(({ course }: CourseCardProps) => {
 
   const color = colorScheme === "dark" ? "white" : "black";
 
+  const difficultyVariant = useMemo(() => {
+    switch (course?.difficulty) {
+      case "beginner":
+        return "success";
+
+      case "intermediate":
+        return "warning";
+
+      case "expert":
+        return "danger";
+
+      default:
+        return "secondary";
+    }
+  }, [course?.difficulty]);
+
   return (
     <Animated.View entering={FadeInDown.duration(400)} className="px-4 pb-4">
       <Pressable onPress={() => router.push(`/course/${course.id}`)}>
@@ -33,9 +49,11 @@ const CourseCard = memo(({ course }: CourseCardProps) => {
             style={{ width: "100%", height: 220 }}
           />
           <View className="gap-4 p-4">
-            <View className="flex-row items-center justify-between">
+            <View className="flex-row flex-wrap items-center justify-between gap-3">
               <Badge label={course.category.name} />
-              <Badge label={course.difficulty} variant="primary" />
+              <Badge label={course.difficulty} variant={difficultyVariant} />
+              <Badge label={course.duration} variant="secondary" />
+              {course.aiGenerated && <Badge label="AI-Generated" variant="primary" />}
             </View>
             <Text numberOfLines={2} className="text-xl font-bold dark:text-white">
               {course.title.charAt(0).toUpperCase() + course.title.slice(1)}

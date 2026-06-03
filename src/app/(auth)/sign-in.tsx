@@ -88,6 +88,20 @@ const SignInScreen = () => {
               text2: "Check your email",
             });
           }
+        } else if (signIn.status === "needs_second_factor") {
+          const emailFactor = signIn.supportedSecondFactors.find(
+            (factor) => factor.strategy === "email_code"
+          );
+
+          if (emailFactor) {
+            await signIn.mfa.sendEmailCode();
+
+            Toast.show({
+              type: "success",
+              text1: "Verification code sent",
+              text2: "Check your email",
+            });
+          }
         } else {
           Toast.show({
             type: "error",
@@ -106,7 +120,7 @@ const SignInScreen = () => {
     [router, signIn]
   );
 
-  if (signIn.status === "needs_client_trust") {
+  if (signIn.status === "needs_client_trust" || signIn.status === "needs_second_factor") {
     return <SignInVerify />;
   }
 

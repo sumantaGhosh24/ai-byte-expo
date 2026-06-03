@@ -13,21 +13,28 @@ import type {
 
 import { useApi } from "./use-api";
 
-export function useBookmark(bookmarkId: string) {
+export function useBookmark(courseId: string) {
   const api = useApi();
 
   const { isLoaded, isSignedIn } = useAuth();
 
-  return useQuery<BookmarkResponse>({
-    queryKey: ["bookmark", bookmarkId],
+  return useQuery<BookmarkResponse | null>({
+    queryKey: ["bookmark", courseId],
     queryFn: async () => {
-      const response: AxiosResponse<BookmarkResponse> = await api.get(
-        `/bookmark/${bookmarkId}`
-      );
-      return response.data;
+      try {
+        const response: AxiosResponse<BookmarkResponse> = await api.get(
+          `/bookmark/${courseId}`
+        );
+        return response.data;
+      } catch (error: any) {
+        if (error?.response?.status === 404) {
+          return null;
+        }
+        throw error;
+      }
     },
     retry: false,
-    enabled: !!bookmarkId && isLoaded && isSignedIn,
+    enabled: !!courseId && isLoaded && isSignedIn,
   });
 }
 
@@ -42,9 +49,9 @@ export function useCreateBookmark() {
       return response.data;
     },
     retry: false,
-    onSuccess: async (_, variables) => {
-      await queryClient.invalidateQueries({ queryKey: ["bookmarks"] });
+    onSuccess: async (_result, variables) => {
       await queryClient.invalidateQueries({ queryKey: ["course", variables.courseId] });
+      await queryClient.invalidateQueries({ queryKey: ["bookmark", variables.courseId] });
     },
   });
 }
@@ -60,10 +67,17 @@ export function useDeleteBookmark() {
       return response.data;
     },
     retry: false,
-    onSuccess: async (_, variables) => {
-      await queryClient.invalidateQueries({ queryKey: ["bookmarks"] });
+    onSuccess: async (data, _variables) => {
+      const deletedBookmark = data?.bookmark;
+      if (!deletedBookmark) return;
+
+      queryClient.setQueryData(["bookmark", deletedBookmark.courseId], null);
+
       await queryClient.invalidateQueries({
-        queryKey: ["bookmark", variables.bookmarkId],
+        queryKey: ["bookmark", deletedBookmark.courseId],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ["course", deletedBookmark.courseId],
       });
     },
   });

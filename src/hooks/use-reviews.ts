@@ -17,21 +17,19 @@ export function useUserReviews({
   page = 1,
   limit = 10,
   search = "",
-  courseId,
 }: UseReviewsParams = {}) {
   const api = useApi();
 
   const { isLoaded, isSignedIn } = useAuth();
 
   return useQuery<ReviewsResponse>({
-    queryKey: ["user-reviews", page, limit, search, courseId],
+    queryKey: ["user-reviews", page, limit, search],
     queryFn: async () => {
       const response: AxiosResponse<ReviewsResponse> = await api.get("/reviews", {
         params: {
           page,
           limit,
           search,
-          courseId,
         },
       });
       return response.data;
@@ -41,10 +39,12 @@ export function useUserReviews({
   });
 }
 
-export function useCourseReviews(
-  courseId: string,
-  { page = 1, limit = 10, search = "" }: UseReviewsParams = {}
-) {
+export function useCourseReviews({
+  page = 1,
+  limit = 10,
+  search = "",
+  courseId,
+}: UseReviewsParams = {}) {
   const api = useApi();
 
   const { isLoaded, isSignedIn } = useAuth();

@@ -12,10 +12,6 @@ export interface CreateEnrollPayload {
   courseId: string;
 }
 
-export interface UpdateEnrollPayload {
-  courseId: string;
-}
-
 export interface DeleteEnrollPayload {
   enrollId: string;
 }

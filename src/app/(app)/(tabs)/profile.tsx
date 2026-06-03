@@ -6,15 +6,19 @@ import Animated, {
   LinearTransition,
 } from "react-native-reanimated";
 
+import { useLogout } from "@/hooks/use-logout";
 import { useProfile, usePublicProfile } from "@/hooks/use-profile";
 import LevelCard from "@/components/profile/level-card";
 import ProfileHeader from "@/components/profile/profile-header";
 import ProfileSkeleton from "@/components/profile/profile-skeleton";
 import ProfileTabs from "@/components/profile/profile-tabs";
 import QuickActions from "@/components/profile/quick-actions";
+import Button from "@/components/ui/button";
 
 const ProfileScreen = () => {
   const [activeTab, setActiveTab] = useState<"overview" | "xp" | "activity">("overview");
+
+  const { logout } = useLogout();
 
   const {
     data: profileData,
@@ -100,6 +104,9 @@ const ProfileScreen = () => {
             user={profileData.user}
             publicData={publicData.user}
           />
+        </Animated.View>
+        <Animated.View entering={FadeInUp.delay(400)} style={{ marginTop: 20 }}>
+          <Button title="Log out" variant="danger" onPress={logout} />
         </Animated.View>
       </View>
     </ScrollView>

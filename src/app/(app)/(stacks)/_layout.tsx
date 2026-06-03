@@ -27,7 +27,7 @@ const StackLayout = () => {
         />
         <Stack.Screen name="course/[id]/index" options={{ title: "Course" }} />
         <Stack.Screen name="course/[id]/lessons" options={{ title: "Lessons" }} />
-        <Stack.Screen name="course/[id]/quiz" options={{ title: "Quizzes" }} />
+        <Stack.Screen name="course/[id]/quizzes" options={{ title: "Quizzes" }} />
         <Stack.Screen
           name="course/[id]/reviews"
           options={{

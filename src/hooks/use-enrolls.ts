@@ -8,26 +8,32 @@ import type {
   DeleteEnrollPayload,
   EnrollMutationResponse,
   EnrollResponse,
-  UpdateEnrollPayload,
 } from "@/types/enroll.type";
 
 import { useApi } from "./use-api";
 
-export function useEnroll(enrollId?: string) {
+export function useEnroll(courseId?: string) {
   const api = useApi();
 
   const { isLoaded, isSignedIn } = useAuth();
 
-  return useQuery<EnrollResponse>({
-    queryKey: ["enroll", enrollId],
+  return useQuery<EnrollResponse | null>({
+    queryKey: ["enroll", courseId],
     queryFn: async () => {
-      const response: AxiosResponse<EnrollResponse> = await api.get(
-        `/enroll/${enrollId}`
-      );
-      return response.data;
+      try {
+        const response: AxiosResponse<EnrollResponse> = await api.get(
+          `/enroll/${courseId}`
+        );
+        return response.data;
+      } catch (error: any) {
+        if (error?.response?.status === 404) {
+          return null;
+        }
+        throw error;
+      }
     },
     retry: false,
-    enabled: !!enrollId && isLoaded && isSignedIn,
+    enabled: !!courseId && isLoaded && isSignedIn,
   });
 }
 
@@ -42,27 +48,9 @@ export function useCreateEnroll() {
       return response.data;
     },
     retry: false,
-    onSuccess: async (_, variables) => {
-      await queryClient.invalidateQueries({ queryKey: ["my-courses"] });
+    onSuccess: async (_result, variables) => {
       await queryClient.invalidateQueries({ queryKey: ["course", variables.courseId] });
-    },
-  });
-}
-
-export function useUpdateEnroll() {
-  const api = useApi();
-
-  return useMutation({
-    mutationFn: async ({ courseId }: UpdateEnrollPayload) => {
-      const response: AxiosResponse<EnrollMutationResponse> = await api.put(
-        `/enrolls/${courseId}`
-      );
-      return response.data;
-    },
-    retry: false,
-    onSuccess: async (_, variables) => {
-      await queryClient.invalidateQueries({ queryKey: ["course", variables.courseId] });
-      await queryClient.invalidateQueries({ queryKey: ["my-courses"] });
+      await queryClient.invalidateQueries({ queryKey: ["enroll", variables.courseId] });
     },
   });
 }
@@ -78,9 +66,18 @@ export function useDeleteEnroll() {
       return response.data;
     },
     retry: false,
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["my-courses"] });
-      await queryClient.invalidateQueries({ queryKey: ["enrolls"] });
+    onSuccess: async (data, variables) => {
+      const deleteEnroll = data?.enroll;
+      if (!deleteEnroll) return;
+
+      queryClient.setQueryData(["enroll", deleteEnroll.courseId], null);
+
+      await queryClient.invalidateQueries({
+        queryKey: ["enroll", deleteEnroll.courseId],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: ["course", deleteEnroll.courseId],
+      });
     },
   });
 }

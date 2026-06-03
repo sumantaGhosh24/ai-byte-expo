@@ -28,6 +28,8 @@ export interface CourseItem {
   thumbnailPublicId: string;
   difficulty: CourseDifficulty;
   visibility: "public" | "private";
+  duration: string;
+  aiGenerated: boolean;
   status: string;
   createdAt: string;
   updatedAt: string;
