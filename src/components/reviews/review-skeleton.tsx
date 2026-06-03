@@ -34,3 +34,38 @@ export const ReviewsSkeleton = () => {
     </View>
   );
 };
+
+export const MyReviewCardSkeleton = () => {
+  return (
+    <Card>
+      <View className="gap-4">
+        <Skeleton height={180} width="100%" radius={16} />
+        <View className="gap-2">
+          <Skeleton height={20} width="80%" radius={8} />
+          <Skeleton height={20} width="55%" radius={8} />
+        </View>
+        <View className="flex-row items-center justify-between">
+          <Skeleton height={28} width={90} radius={999} />
+          <Skeleton height={20} width={40} radius={8} />
+        </View>
+        <View className="gap-2">
+          <Skeleton height={14} width="100%" radius={8} />
+          <Skeleton height={14} width="95%" radius={8} />
+          <Skeleton height={14} width="70%" radius={8} />
+        </View>
+        <Skeleton height={12} width="35%" radius={8} />
+        <Skeleton height={48} width="100%" radius={16} />
+      </View>
+    </Card>
+  );
+};
+
+export const MyReviewsSkeleton = () => {
+  return (
+    <View className="gap-4 p-4">
+      {Array.from({ length: 4 }).map((_, index) => (
+        <MyReviewCardSkeleton key={index} />
+      ))}
+    </View>
+  );
+};

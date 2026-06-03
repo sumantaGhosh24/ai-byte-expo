@@ -29,11 +29,11 @@ const ReviewsScreen = () => {
 
   const { width } = useWindowDimensions();
 
+  const isTablet = width >= 768;
+
   const { colorScheme } = useColorScheme();
 
   const isDark = colorScheme === "dark";
-
-  const isTablet = width >= 768;
 
   const [search, setSearch] = useState("");
 
@@ -122,18 +122,6 @@ const ReviewsScreen = () => {
     ({ item }: { item: ReviewItem }) => <ReviewCard review={item} />,
     []
   );
-
-  const renderFooter = () => {
-    if (!isFetchingNextPage) return null;
-
-    return (
-      <View className="gap-4 px-4 pb-8">
-        {Array.from({ length: 2 }).map((_, i) => (
-          <ReviewCardSkeleton key={i} />
-        ))}
-      </View>
-    );
-  };
 
   const renderHeader = useMemo(
     () => (
@@ -231,6 +219,18 @@ const ReviewsScreen = () => {
       search,
     ]
   );
+
+  const renderFooter = () => {
+    if (!isFetchingNextPage) return null;
+
+    return (
+      <View className="gap-4 px-4 pb-8">
+        {Array.from({ length: 2 }).map((_, i) => (
+          <ReviewCardSkeleton key={i} />
+        ))}
+      </View>
+    );
+  };
 
   if (isLoading) {
     return <ReviewsSkeleton />;
