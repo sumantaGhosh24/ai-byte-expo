@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const reviewSchema = z.object({
   rating: z
-    .string()
+    .number()
     .min(1, { message: "Rating must be between 1 and 5" })
     .max(5, { message: "Rating must be between 1 and 5" }),
   message: z

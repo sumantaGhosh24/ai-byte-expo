@@ -1,5 +1,5 @@
 import { useAuth } from "@clerk/expo";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import type { AxiosResponse } from "axios";
 
 import { queryClient } from "@/lib/react-query";
@@ -40,7 +40,6 @@ export function useUserReviews({
 }
 
 export function useCourseReviews({
-  page = 1,
   limit = 10,
   search = "",
   courseId,
@@ -49,14 +48,15 @@ export function useCourseReviews({
 
   const { isLoaded, isSignedIn } = useAuth();
 
-  return useQuery<ReviewsResponse>({
-    queryKey: ["course-reviews", courseId, page, limit, search],
-    queryFn: async () => {
+  return useInfiniteQuery<ReviewsResponse>({
+    queryKey: ["course-reviews", courseId, limit, search],
+    initialPageParam: 1,
+    queryFn: async ({ pageParam }) => {
       const response: AxiosResponse<ReviewsResponse> = await api.get(
         `/reviews/course/${courseId}`,
         {
           params: {
-            page,
+            page: pageParam,
             limit,
             search,
           },
@@ -64,6 +64,10 @@ export function useCourseReviews({
       );
       return response.data;
     },
+    getNextPageParam: (lastPage) => {
+      return lastPage.result.paginations.nextPage ?? undefined;
+    },
+    staleTime: 1000 * 60 * 5,
     enabled: !!courseId && isLoaded && isSignedIn,
     retry: false,
   });
@@ -78,11 +82,9 @@ export function useCreateReview() {
       return response.data;
     },
     retry: false,
-    onSuccess: async (_, variables) => {
+    onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["user-reviews"] });
-      await queryClient.invalidateQueries({
-        queryKey: ["course-reviews", variables.courseId],
-      });
+      await queryClient.invalidateQueries({ queryKey: ["course-reviews"] });
     },
   });
 }
@@ -100,11 +102,9 @@ export function useDeleteReview() {
       return response.data;
     },
     retry: false,
-    onSuccess: async (_, variables) => {
+    onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["user-reviews"] });
-      await queryClient.invalidateQueries({
-        queryKey: ["course-reviews", variables.courseId],
-      });
+      await queryClient.invalidateQueries({ queryKey: ["course-reviews"] });
     },
   });
 }
