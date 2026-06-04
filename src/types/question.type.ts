@@ -8,14 +8,13 @@ export interface Pagination {
   previousPage: number | null;
 }
 
-export type Difficulty = "easy" | "medium" | "hard";
+export type QuestionDifficulty = "beginner" | "intermediate" | "expert";
 
 export interface UseQuestionsParams {
   quizId: string;
   page?: number;
   limit?: number;
   search?: string;
-  difficulty?: Difficulty;
 }
 
 export interface QuestionOption {
@@ -28,13 +27,13 @@ export interface QuestionOption {
 
 export interface QuestionItem {
   id: string;
-  quizId: string;
   question: string;
-  difficulty: Difficulty;
-  visibility: "public" | "private";
-  status: string;
-  options: QuestionOption[];
+  explanation: string;
+  difficulty: QuestionDifficulty;
+  aiGenerated: boolean;
+  quizId: string;
   answersCount: number;
+  options: QuestionOption[];
   createdAt: string;
   updatedAt: string;
 }
@@ -45,9 +44,4 @@ export interface QuestionsResponse {
     items: QuestionItem[];
     paginations: Pagination;
   };
-}
-
-export interface QuestionResponse {
-  success: boolean;
-  question: QuestionItem;
 }
