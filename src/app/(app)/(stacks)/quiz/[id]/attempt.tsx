@@ -7,6 +7,7 @@ import Animated, {
   FadeOutLeft,
   LinearTransition,
 } from "react-native-reanimated";
+import Toast from "react-native-toast-message";
 
 import { useQuestions } from "@/hooks/use-questions";
 import { useCreateQuizAttempt } from "@/hooks/use-quiz-attempts";
@@ -18,9 +19,8 @@ import Badge from "@/components/ui/badge";
 import ProgressBar from "@/components/ui/progress";
 import Button from "@/components/ui/button";
 import QuizQuestionCard from "@/components/quizzes/quiz-question-card";
-import { QuizAttemptSkeleton } from "@/components/quizzes/quiz-attempt-skeleton";
 import QuizCompletionOverlay from "@/components/quizzes/quiz-completion-overlay";
-import Toast from "react-native-toast-message";
+import { QuizAttemptSkeleton } from "@/components/quizzes/quiz-attempt-skeleton";
 
 const AttemptScreen = () => {
   const { id } = useLocalSearchParams<{ id: string }>();

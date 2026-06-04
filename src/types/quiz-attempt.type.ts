@@ -1,3 +1,5 @@
+import { QuizDifficulty } from "./quiz.type";
+
 export interface Pagination {
   page: number;
   limit: number;
@@ -8,17 +10,9 @@ export interface Pagination {
   previousPage: number | null;
 }
 
-export type AttemptStatus = "processing" | "completed";
+export type AttemptStatus = "pending" | "processing" | "completed" | "failed";
 
 export type AnswerResult = "correct" | "wrong";
-
-export interface QuizAttemptQueryParams {
-  page?: number;
-  limit?: number;
-  search?: string;
-  userId?: string;
-  quizId?: string;
-}
 
 export interface CreateQuizAttemptPayload {
   quizId: string;
@@ -34,12 +28,13 @@ export interface QuizSummary {
   weaknesses: string;
   createdAt: string;
   updatedAt: string;
+  quizAttemptId: string;
 }
 
 export interface QuizAttemptQuiz {
   id: string;
   title: string;
-  difficulty: string;
+  difficulty: QuizDifficulty;
 }
 
 export interface QuizAttemptItem {
@@ -51,8 +46,6 @@ export interface QuizAttemptItem {
   wrongAnswers: number;
   status: AttemptStatus;
   submittedAt: string;
-  createdAt: string;
-  updatedAt: string;
   quiz: QuizAttemptQuiz;
   summary: QuizSummary | null;
 }
@@ -65,26 +58,55 @@ export interface QuizAttemptsResponse {
   };
 }
 
+export interface QuizAttemptQuestionOption {
+  id: string;
+  text: string;
+  isCorrect: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface QuizAttemptQuestion {
+  id: string;
+  question: string;
+  explanation: string | null;
+  correctAnswer: string;
+  difficulty: QuizDifficulty;
+  aiGenerated: boolean;
+  createdAt: string;
+  updatedAt: string;
+  options: QuizAttemptQuestionOption[];
+}
+
+export interface QuizAttemptSelectedOption {
+  id: string;
+  text: string;
+  isCorrect: boolean;
+  createdAt: string;
+  updatedAt: string;
+  questionId: string;
+}
+
 export interface QuizAttemptAnswer {
   id: string;
+  quizAttemptId: string;
   questionId: string;
   selectedOptionId: string;
   isCorrect: boolean;
   result: AnswerResult;
-  selectedOption: {
-    id: string;
-    text: string;
-    isCorrect: boolean;
-  };
-  question: {
-    id: string;
-    question: string;
-    options: {
-      id: string;
-      text: string;
-      isCorrect: boolean;
-    }[];
-  };
+  createdAt: string;
+  selectedOption: QuizAttemptSelectedOption;
+  question: QuizAttemptQuestion;
+}
+
+export interface QuizAttemptUser {
+  id: string;
+  email: string;
+  profile: {
+    name: string | null;
+    username: string | null;
+    avatarUrl: string | null;
+  } | null;
 }
 
 export interface QuizAttemptDetails {
@@ -96,19 +118,11 @@ export interface QuizAttemptDetails {
   wrongAnswers: number;
   status: AttemptStatus;
   submittedAt: string;
-  user: {
-    id: string;
-    email: string;
-    profile: {
-      name: string;
-      username: string;
-      avatarUrl: string | null;
-    };
-  };
+  user: QuizAttemptUser;
   quiz: {
     id: string;
     title: string;
-    description: string | null;
+    description: string;
   };
   summary: QuizSummary | null;
   answers: QuizAttemptAnswer[];
@@ -119,17 +133,19 @@ export interface QuizAttemptResponse {
   quizAttempt: QuizAttemptDetails;
 }
 
+export interface CreateQuizAttemptData {
+  id: string;
+  userId: string;
+  quizId: string;
+  score: number;
+  correctAnswers: number;
+  wrongAnswers: number;
+  status: AttemptStatus;
+  submittedAt: string;
+}
+
 export interface CreateQuizAttemptResponse {
   success: boolean;
   message: string;
-  attempt: {
-    id: string;
-    userId: string;
-    quizId: string;
-    score: number;
-    correctAnswers: number;
-    wrongAnswers: number;
-    status: AttemptStatus;
-    submittedAt: string;
-  };
+  attempt: CreateQuizAttemptData;
 }

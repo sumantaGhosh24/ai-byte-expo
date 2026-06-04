@@ -1,68 +1,42 @@
 import { useAuth } from "@clerk/expo";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import type { AxiosResponse } from "axios";
 
 import { queryClient } from "@/lib/react-query";
 import {
   CreateQuizAttemptPayload,
   CreateQuizAttemptResponse,
-  QuizAttemptQueryParams,
   QuizAttemptResponse,
   QuizAttemptsResponse,
 } from "@/types/quiz-attempt.type";
 
 import { useApi } from "./use-api";
 
-export function useQuizAttempts({
-  page = 1,
-  limit = 10,
-  search = "",
-  userId,
-  quizId,
-}: QuizAttemptQueryParams) {
+export function useUserQuizAttempts(limit = 10) {
   const api = useApi();
 
   const { isLoaded, isSignedIn } = useAuth();
 
-  return useQuery<QuizAttemptsResponse>({
-    queryKey: ["quiz-attempts", page, limit, search, userId, quizId],
-    queryFn: async () => {
-      const response: AxiosResponse<QuizAttemptsResponse> = await api.get("/attempts", {
-        params: {
-          page,
-          limit,
-          search,
-          userId,
-          quizId,
-        },
-      });
-      return response.data;
-    },
-    enabled: isLoaded && isSignedIn,
-    retry: false,
-  });
-}
-
-export function useUserQuizAttempts(userId: string, page = 1, limit = 10) {
-  const api = useApi();
-
-  const { isLoaded, isSignedIn } = useAuth();
-
-  return useQuery<QuizAttemptsResponse>({
-    queryKey: ["user-quiz-attempts", userId, page, limit],
-    queryFn: async () => {
+  return useInfiniteQuery<QuizAttemptsResponse>({
+    queryKey: ["user-quiz-attempts", limit],
+    initialPageParam: 1,
+    queryFn: async ({ pageParam }) => {
       const response: AxiosResponse<QuizAttemptsResponse> = await api.get(
-        `/attempts/users/${userId}`,
+        "/attempts/users",
         {
           params: {
-            page,
+            page: pageParam,
             limit,
           },
         }
       );
       return response.data;
     },
-    enabled: !!userId && isLoaded && isSignedIn,
+    getNextPageParam: (lastPage) => {
+      return lastPage.result.paginations.nextPage ?? undefined;
+    },
+    staleTime: 1000 * 60 * 5,
+    enabled: isLoaded && isSignedIn,
     retry: false,
   });
 }
