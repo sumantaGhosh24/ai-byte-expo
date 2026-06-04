@@ -53,7 +53,7 @@ const BookmarksScreen = () => {
     hasNextPage,
     isFetchingNextPage,
   } = useBookmarkCourses({
-    limit: 5,
+    limit: 10,
     search: debouncedSearch,
     categoryId,
     difficulty,

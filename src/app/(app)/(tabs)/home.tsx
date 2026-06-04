@@ -53,7 +53,7 @@ export default function HomeScreen() {
     hasNextPage,
     isFetchingNextPage,
   } = usePublicCourses({
-    limit: 5,
+    limit: 10,
     search: debouncedSearch,
     categoryId,
     difficulty,

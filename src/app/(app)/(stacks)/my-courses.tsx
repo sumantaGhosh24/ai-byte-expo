@@ -53,7 +53,7 @@ const MyCoursesScreen = () => {
     hasNextPage,
     isFetchingNextPage,
   } = useMyCourses({
-    limit: 5,
+    limit: 10,
     search: debouncedSearch,
     categoryId,
     difficulty,

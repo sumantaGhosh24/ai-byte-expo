@@ -8,7 +8,7 @@ export interface Pagination {
   previousPage: number | null;
 }
 
-export type LessonDifficulty = "beginner" | "intermediate" | "advanced";
+export type LessonDifficulty = "beginner" | "intermediate" | "expert";
 
 export interface UseLessonsParams {
   courseId: string;
@@ -26,11 +26,14 @@ export interface CourseSummary {
 export interface LessonItem {
   id: string;
   title: string;
-  description: string | null;
-  difficulty: LessonDifficulty;
-  visibility: "public" | "private";
-  status: string;
+  content: string;
   thumbnailUrl: string | null;
+  thumbnailPublicId: string | null;
+  videoUrl: string | null;
+  videoPublicId: string | null;
+  duration: string;
+  difficulty: LessonDifficulty;
+  aiGenerated: boolean;
   orderIndex: number;
   courseId: string;
   progressCount: number;
