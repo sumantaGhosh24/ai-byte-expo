@@ -30,9 +30,9 @@ const StackLayout = () => {
         <Stack.Screen name="course/[id]/quizzes" options={{ title: "Quizzes" }} />
         <Stack.Screen name="course/[id]/reviews" options={{ title: "Reviews" }} />
         <Stack.Screen name="lesson/[id]" options={{ title: "Lesson" }} />
-        <Stack.Screen name="quiz/[id]" options={{ title: "Quiz" }} />
-        <Stack.Screen name="quiz/result" options={{ title: "Quiz Attempts" }} />
-        <Stack.Screen name="quiz/attempt/[id]" options={{ title: "Quiz Attempt" }} />
+        <Stack.Screen name="quiz/[id]/index" options={{ title: "Quiz" }} />
+        <Stack.Screen name="quiz/[id]/attempt" options={{ title: "Quiz Attempt" }} />
+        <Stack.Screen name="attempt/[id]" options={{ title: "Quiz Attempt Result" }} />
       </Stack>
     </>
   );

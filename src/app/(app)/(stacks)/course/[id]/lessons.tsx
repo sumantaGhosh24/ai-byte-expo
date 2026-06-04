@@ -101,7 +101,7 @@ const LessonsScreen = () => {
 
   const renderLesson = useCallback(
     ({ item, index }: any) => (
-      <Animated.View entering={FadeInUp.delay(index * 40)} className={"mb-3 px-4"}>
+      <Animated.View entering={FadeInUp.delay(index * 40)} className="mb-3 px-4">
         <LessonCard lesson={item} onPress={() => handleLessonPress(item.id)} />
       </Animated.View>
     ),

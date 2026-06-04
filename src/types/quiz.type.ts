@@ -8,7 +8,7 @@ export interface Pagination {
   previousPage: number | null;
 }
 
-export type QuizDifficulty = "easy" | "medium" | "hard";
+export type QuizDifficulty = "beginner" | "intermediate" | "expert";
 
 export interface UsePublicQuizzesParams {
   courseId: string;
@@ -23,13 +23,20 @@ export interface QuizItem {
   title: string;
   description: string | null;
   difficulty: QuizDifficulty;
-  visibility: "public" | "private";
-  status: string;
+  aiGenerated: boolean;
+  passingScore: number;
   courseId: string;
   questionsCount: number;
   attemptsCount: number;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface QuizDetails extends Omit<QuizItem, "questionsCount" | "attemptsCount"> {
+  _count: {
+    questions: number;
+    attempts: number;
+  };
 }
 
 export interface PublicQuizzesResponse {
@@ -42,5 +49,5 @@ export interface PublicQuizzesResponse {
 
 export interface PublicQuizResponse {
   success: boolean;
-  quiz: QuizItem;
+  quiz: QuizDetails;
 }

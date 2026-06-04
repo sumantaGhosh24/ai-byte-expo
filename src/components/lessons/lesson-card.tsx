@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useMemo } from "react";
 import { Pressable, View, Text } from "react-native";
 import Animated, {
   useAnimatedStyle,
@@ -23,6 +23,22 @@ const LessonCard = memo(({ lesson, onPress }: LessonCardProps) => {
   const style = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
   }));
+
+  const difficultyVariant = useMemo(() => {
+    switch (lesson?.difficulty) {
+      case "beginner":
+        return "success";
+
+      case "intermediate":
+        return "warning";
+
+      case "expert":
+        return "danger";
+
+      default:
+        return "secondary";
+    }
+  }, [lesson?.difficulty]);
 
   return (
     <Pressable
@@ -61,7 +77,7 @@ const LessonCard = memo(({ lesson, onPress }: LessonCardProps) => {
               </Text>
               <View className="flex-row flex-wrap gap-2">
                 <Badge size="sm" label={lesson.duration} variant="secondary" />
-                <Badge size="sm" label={lesson.difficulty} />
+                <Badge label={lesson.difficulty} variant={difficultyVariant} />
                 {lesson.aiGenerated && (
                   <Badge size="sm" label="AI Generated" variant="primary" />
                 )}
