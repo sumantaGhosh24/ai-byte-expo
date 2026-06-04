@@ -20,6 +20,7 @@ import {
 } from "@/components/lessons/lesson-screen-skeleton";
 import EmptyLessons from "@/components/lessons/empty-lessons";
 import Input from "@/components/ui/input";
+import Spinner from "@/components/ui/spinner";
 
 const LessonsScreen = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -33,6 +34,8 @@ const LessonsScreen = () => {
   const isDark = colorScheme === "dark";
 
   const [search, setSearch] = useState("");
+
+  const [processing, setProcessing] = useState(false);
 
   const debouncedSearch = useDebounce(search);
 
@@ -71,6 +74,8 @@ const LessonsScreen = () => {
 
   const handleLessonPress = useCallback(
     async (lessonId: string) => {
+      setProcessing(true);
+
       try {
         await updateProgress.mutateAsync({
           lessonId,
@@ -78,7 +83,10 @@ const LessonsScreen = () => {
         });
 
         await refetchEnroll();
-      } catch {}
+      } catch {
+      } finally {
+        setProcessing(false);
+      }
 
       router.push(`/lesson/${lessonId}`);
     },
@@ -148,6 +156,14 @@ const LessonsScreen = () => {
 
   if (courseLoading || lessonsLoading) {
     return <LessonsScreenSkeleton />;
+  }
+
+  if (processing) {
+    return (
+      <View className="flex-1 items-center justify-center">
+        <Spinner label="Loading lesson..." />
+      </View>
+    );
   }
 
   return (

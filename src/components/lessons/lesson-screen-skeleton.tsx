@@ -50,3 +50,16 @@ export const LessonsScreenSkeleton = () => {
     </ScrollView>
   );
 };
+
+export const LessonScreenSkeleton = () => {
+  return (
+    <ScrollView className="flex-1 px-5" showsVerticalScrollIndicator={false}>
+      <Skeleton height={240} width="100%" radius={24} />
+      <View className="mt-5 gap-4">
+        <Skeleton height={32} width="80%" />
+        <Skeleton height={120} width="100%" radius={24} />
+        <Skeleton height={400} width="100%" radius={24} />
+      </View>
+    </ScrollView>
+  );
+};

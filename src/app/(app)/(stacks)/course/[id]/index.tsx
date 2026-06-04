@@ -368,7 +368,12 @@ const CourseScreen = () => {
                   <ProgressBar
                     progress={
                       course.lessonsCount > 0
-                        ? (enroll.finishedLessons / course.lessonsCount) * 100
+                        ? parseInt(
+                            (
+                              (enroll.finishedLessons / course.lessonsCount) *
+                              100
+                            ).toFixed(2)
+                          )
                         : 0
                     }
                     showLabel

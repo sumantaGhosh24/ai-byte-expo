@@ -44,6 +44,7 @@ export function useUpdateProgress() {
     onSuccess: async (_, variables) => {
       await queryClient.invalidateQueries({ queryKey: ["progress", variables.lessonId] });
       await queryClient.invalidateQueries({ queryKey: ["course"] });
+      await queryClient.invalidateQueries({ queryKey: ["lessons"] });
       await queryClient.invalidateQueries({ queryKey: ["courses"] });
       await queryClient.invalidateQueries({ queryKey: ["profile"] });
     },

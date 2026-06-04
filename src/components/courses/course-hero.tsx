@@ -29,6 +29,7 @@ const CourseHero = memo(({ course }: CourseHeroProps) => {
         <View className="flex-row flex-wrap gap-2">
           <Badge label={course.category.name} />
           <Badge label={course.difficulty} variant="secondary" />
+          {course?.aiGenerated && <Badge label="AI Generated" variant="primary" />}
         </View>
         <Text className="text-2xl font-bold text-neutral-900 dark:text-white">
           {course.title.charAt(0).toUpperCase() + course.title.slice(1)}
