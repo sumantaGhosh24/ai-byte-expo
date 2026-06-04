@@ -67,3 +67,17 @@ export const QuizzesScreenSkeleton = () => {
     </ScrollView>
   );
 };
+
+export const QuizScreenSkeleton = () => {
+  return (
+    <ScrollView className="flex-1 px-5" showsVerticalScrollIndicator={false}>
+      <Skeleton height={220} width="100%" radius={24} />
+      <View className="mt-6">
+        <Skeleton height={160} width="100%" radius={24} />
+      </View>
+      <View className="mt-6">
+        <Skeleton height={220} width="100%" radius={24} />
+      </View>
+    </ScrollView>
+  );
+};
