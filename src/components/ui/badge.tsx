@@ -36,6 +36,20 @@ const badgeVariants = {
   },
 } as const;
 
+const badgeIconColorByVariant: Record<keyof typeof badgeVariants, string> = {
+  primary: "#1447e6",
+  success: "#059669",
+  warning: "#d97706",
+  danger: "#dc2626",
+  secondary: "#374151",
+};
+
+export function getBadgeIconColor(
+  variant: keyof typeof badgeVariants = "primary"
+): string {
+  return badgeIconColorByVariant[variant] || "#ffffff";
+}
+
 const sizeStyles = {
   sm: {
     container: "px-2 py-1",

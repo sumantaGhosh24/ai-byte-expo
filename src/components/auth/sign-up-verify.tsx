@@ -6,8 +6,9 @@ import { Controller, useForm } from "react-hook-form";
 import { Pressable, Text } from "react-native";
 import Toast from "react-native-toast-message";
 import { z } from "zod";
+import { UserPlus } from "lucide-react-native";
 
-import Button from "../ui/button";
+import Button, { getButtonIconColor } from "../ui/button";
 import Input from "../ui/input";
 import AuthLayout from "./auth-layout";
 
@@ -113,6 +114,7 @@ const SignUpVerify = () => {
         title="Verify Account"
         loading={fetchStatus === "fetching"}
         onPress={handleSubmit(handleVerify)}
+        leftIcon={<UserPlus size={18} color={getButtonIconColor()} />}
         fullWidth
       />
       <Pressable

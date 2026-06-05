@@ -14,14 +14,14 @@ import * as ImagePicker from "expo-image-picker";
 import * as Linking from "expo-linking";
 import { Image } from "expo-image";
 import Toast from "react-native-toast-message";
-import { Camera } from "lucide-react-native";
+import { Camera, Send } from "lucide-react-native";
 
 import { useDeleteFile, useUploadImage } from "@/hooks/use-upload";
 import { useUpdateProfile } from "@/hooks/use-profile";
 import { ProfileFormValues, profileSchema } from "@/schemas/profile.schema";
 import { Profile } from "@/types/profile.type";
 
-import Button from "../ui/button";
+import Button, { getButtonIconColor } from "../ui/button";
 import Card from "../ui/card";
 import Input from "../ui/input";
 
@@ -337,6 +337,7 @@ const ProfileForm = memo(({ profile }: ProfileProps) => {
               <Button
                 title="Update Profile"
                 loading={isLoading}
+                leftIcon={<Send size={18} color={getButtonIconColor()} />}
                 fullWidth
                 onPress={handleSubmit(onSubmit)}
               />

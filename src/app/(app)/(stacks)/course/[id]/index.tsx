@@ -16,15 +16,30 @@ import Animated, {
   FadeInUp,
   LinearTransition,
 } from "react-native-reanimated";
-import { Bookmark, BookOpen, ClipboardCheck, Star, Users } from "lucide-react-native";
+import {
+  Bookmark,
+  BookOpen,
+  ClipboardCheck,
+  Clock2,
+  Clock3,
+  FileQuestion,
+  GraduationCap,
+  Layers3,
+  MessageSquareText,
+  Share2,
+  Sparkles,
+  Star,
+  Tag,
+  Users,
+} from "lucide-react-native";
 import Toast from "react-native-toast-message";
 
 import { useMyCourse } from "@/hooks/use-courses";
 import { useBookmark, useCreateBookmark, useDeleteBookmark } from "@/hooks/use-bookmarks";
 import { useCreateEnroll, useDeleteEnroll, useEnroll } from "@/hooks/use-enrolls";
 import CourseDetailsSkeleton from "@/components/courses/course-details-skeleton";
-import Button from "@/components/ui/button";
-import Badge from "@/components/ui/badge";
+import Button, { getButtonIconColor } from "@/components/ui/button";
+import Badge, { getBadgeIconColor } from "@/components/ui/badge";
 import Card from "@/components/ui/card";
 import ProgressBar from "@/components/ui/progress";
 
@@ -303,10 +318,28 @@ const CourseScreen = () => {
             >
               <View className="gap-3">
                 <View className="flex-row flex-wrap gap-2">
-                  <Badge label={course.category.name} />
-                  <Badge label={course.difficulty} variant={difficultyVariant} />
-                  <Badge label={course.duration} variant="secondary" />
-                  {course.aiGenerated && <Badge label="AI-Generated" variant="primary" />}
+                  <Badge
+                    label={course.category.name}
+                    leftIcon={<Tag size={12} color={getBadgeIconColor()} />}
+                  />
+                  <Badge
+                    label={course.difficulty}
+                    variant={difficultyVariant}
+                    leftIcon={
+                      <Layers3 size={12} color={getBadgeIconColor(difficultyVariant)} />
+                    }
+                  />
+                  <Badge
+                    label={course.duration}
+                    variant="secondary"
+                    leftIcon={<Clock3 size={12} color={getBadgeIconColor("secondary")} />}
+                  />
+                  {course.aiGenerated && (
+                    <Badge
+                      label="AI-Generated"
+                      leftIcon={<Sparkles size={12} color={getBadgeIconColor()} />}
+                    />
+                  )}
                 </View>
                 <Text className="text-3xl font-bold text-white">
                   {course.title.charAt(0).toUpperCase() + course.title.slice(1)}
@@ -380,7 +413,13 @@ const CourseScreen = () => {
                   />
                   {enroll.completed && (
                     <View className="flex-row items-center gap-2">
-                      <Badge variant="success" label="Completed" />
+                      <Badge
+                        variant="success"
+                        label="Completed"
+                        leftIcon={
+                          <Clock2 size={12} color={getBadgeIconColor("success")} />
+                        }
+                      />
                     </View>
                   )}
                   <View className="flex-row justify-between">
@@ -406,7 +445,7 @@ const CourseScreen = () => {
               <Button
                 size="lg"
                 title="Continue Learning"
-                leftIcon={<BookOpen size={18} color="#fff" />}
+                leftIcon={<BookOpen size={18} color={getButtonIconColor()} />}
                 onPress={() => router.push(`/course/${id}/lessons`)}
               />
             </Animated.View>
@@ -435,22 +474,32 @@ const CourseScreen = () => {
                 <Button
                   title="Lessons"
                   onPress={() => handleProtectedRoute(`/course/${id}/lessons`)}
+                  leftIcon={<BookOpen size={18} color={getButtonIconColor()} />}
                 />
                 <Button
                   title="Quizzes"
                   onPress={() => handleProtectedRoute(`/course/${id}/quizzes`)}
+                  leftIcon={<FileQuestion size={18} color={getButtonIconColor()} />}
                 />
                 <Button
                   title="Reviews"
                   variant="outline"
                   onPress={() => router.push(`/course/${id}/reviews`)}
+                  leftIcon={
+                    <MessageSquareText size={18} color={getButtonIconColor("outline")} />
+                  }
                 />
               </View>
             </Card>
           </Animated.View>
           <Animated.View entering={FadeInDown.delay(400)}>
             <Card>
-              <Button title="Share Course" variant="outline" onPress={handleShare} />
+              <Button
+                title="Share Course"
+                variant="outline"
+                onPress={handleShare}
+                leftIcon={<Share2 size={18} color={getButtonIconColor("outline")} />}
+              />
             </Card>
           </Animated.View>
         </View>
@@ -463,6 +512,12 @@ const CourseScreen = () => {
             variant={isEnrolled ? "danger" : "success"}
             loading={createEnroll.isPending || deleteEnroll.isPending}
             onPress={handleEnroll}
+            leftIcon={
+              <GraduationCap
+                size={18}
+                color={getButtonIconColor(isEnrolled ? "danger" : "success")}
+              />
+            }
           />
           <Button
             className="flex-1"
@@ -470,6 +525,12 @@ const CourseScreen = () => {
             variant={isBookmarked ? "secondary" : "outline"}
             loading={createBookmark.isPending || deleteBookmark.isPending}
             onPress={handleBookmark}
+            leftIcon={
+              <Bookmark
+                size={18}
+                color={getButtonIconColor(isBookmarked ? "secondary" : "outline")}
+              />
+            }
           />
         </View>
       </View>

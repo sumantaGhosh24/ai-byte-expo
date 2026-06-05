@@ -5,13 +5,20 @@ import Animated, {
   useAnimatedStyle,
   withSpring,
 } from "react-native-reanimated";
-import { Brain, ChevronRight } from "lucide-react-native";
+import {
+  Brain,
+  ChevronRight,
+  Layers3,
+  ListChecks,
+  Sparkles,
+  Target,
+} from "lucide-react-native";
 
 import { QuizItem } from "@/types/quiz.type";
 
-import Badge from "../ui/badge";
+import Badge, { getBadgeIconColor } from "../ui/badge";
 import Card from "../ui/card";
-import Button from "../ui/button";
+import Button, { getButtonIconColor } from "../ui/button";
 
 interface Props {
   quiz: QuizItem;
@@ -77,14 +84,32 @@ const QuizCard = memo(({ quiz, onPress }: Props) => {
               </View>
             </View>
             <View className="flex-row flex-wrap gap-2">
-              <Badge label={quiz.difficulty} variant={difficultyVariant} />
+              <Badge
+                label={quiz.difficulty}
+                variant={difficultyVariant}
+                leftIcon={
+                  <Layers3 size={12} color={getBadgeIconColor(difficultyVariant)} />
+                }
+              />
               <Badge
                 size="sm"
                 variant="secondary"
                 label={`${quiz.questionsCount} Questions`}
+                leftIcon={<ListChecks size={12} color={getBadgeIconColor("secondary")} />}
               />
-              <Badge size="sm" variant="warning" label={`Pass ${quiz.passingScore}%`} />
-              {quiz.aiGenerated && <Badge size="sm" label="AI Generated" />}
+              <Badge
+                size="sm"
+                variant="warning"
+                label={`Pass ${quiz.passingScore}%`}
+                leftIcon={<Target size={12} color={getBadgeIconColor("warning")} />}
+              />
+              {quiz.aiGenerated && (
+                <Badge
+                  size="sm"
+                  label="AI Generated"
+                  leftIcon={<Sparkles size={12} color={getBadgeIconColor()} />}
+                />
+              )}
             </View>
             <View className="flex-row items-center justify-between">
               <Text className="text-sm text-neutral-500">
@@ -93,7 +118,7 @@ const QuizCard = memo(({ quiz, onPress }: Props) => {
               <Button
                 size="sm"
                 title="View Quiz"
-                rightIcon={<ChevronRight size={16} color="white" />}
+                rightIcon={<ChevronRight size={16} color={getButtonIconColor()} />}
                 onPress={onPress}
                 fullWidth={false}
               />

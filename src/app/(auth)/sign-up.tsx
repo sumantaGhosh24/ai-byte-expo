@@ -7,9 +7,10 @@ import { Controller, useForm } from "react-hook-form";
 import { Text, View } from "react-native";
 import Toast from "react-native-toast-message";
 import { z } from "zod";
+import { UserPlus } from "lucide-react-native";
 
 import SignUpVerify from "@/components/auth/sign-up-verify";
-import Button from "@/components/ui/button";
+import Button, { getButtonIconColor } from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import AuthLayout from "@/components/auth/auth-layout";
 import GoogleSignInButton from "@/components/auth/google-sign-in-button";
@@ -146,6 +147,7 @@ const SignUpScreen = () => {
         title="Create Account"
         loading={fetchStatus === "fetching"}
         onPress={handleSubmit(handleSignUp)}
+        leftIcon={<UserPlus size={18} color={getButtonIconColor()} />}
         fullWidth
       />
       <View className="flex-row items-center gap-3">

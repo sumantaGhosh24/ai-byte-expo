@@ -6,23 +6,19 @@ import { Crown, Gem, Shield, Sparkles } from "lucide-react-native";
 import { UserAchievement } from "@/types/achievement.type";
 
 import Card from "../ui/card";
-import Badge from "../ui/badge";
+import Badge, { getBadgeIconColor } from "../ui/badge";
 
 const rarityMap = {
   common: {
-    Icon: Shield,
     glow: "border-slate-300",
   },
   rare: {
-    Icon: Sparkles,
     glow: "border-blue-400",
   },
   epic: {
-    Icon: Gem,
     glow: "border-purple-500",
   },
   legendary: {
-    Icon: Crown,
     glow: "border-yellow-500",
   },
 };
@@ -33,8 +29,6 @@ interface AchievementCardProps {
 
 const AchievementCard = memo(({ achievement }: AchievementCardProps) => {
   const rarity = rarityMap[achievement.achievement.achievementRarity];
-
-  const Icon = rarity.Icon;
 
   return (
     <Card radius="xl" padding="lg" bordered shadow="sm">
@@ -53,12 +47,9 @@ const AchievementCard = memo(({ achievement }: AchievementCardProps) => {
             }}
           />
         </View>
-        <View className="absolute right-4 top-4">
-          <Icon size={18} />
-        </View>
         <Text
           numberOfLines={1}
-          className="mt-4 text-center text-base font-bold capitalize"
+          className="mt-4 text-center text-base font-bold capitalize dark:text-white"
         >
           {achievement.achievement.title}
         </Text>
@@ -66,7 +57,20 @@ const AchievementCard = memo(({ achievement }: AchievementCardProps) => {
           {achievement.achievement.description}
         </Text>
         <View className="mt-4">
-          <Badge label={achievement.achievement.achievementRarity} />
+          <Badge
+            label={achievement.achievement.achievementRarity}
+            leftIcon={
+              achievement.achievement.achievementRarity === "common" ? (
+                <Shield size={12} color={getBadgeIconColor()} />
+              ) : achievement.achievement.achievementRarity === "rare" ? (
+                <Sparkles size={12} color={getBadgeIconColor()} />
+              ) : achievement.achievement.achievementRarity === "epic" ? (
+                <Gem size={12} color={getBadgeIconColor()} />
+              ) : (
+                <Crown size={12} color={getBadgeIconColor()} />
+              )
+            }
+          />
         </View>
       </View>
     </Card>

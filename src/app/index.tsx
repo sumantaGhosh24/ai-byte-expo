@@ -9,7 +9,7 @@ import { welcomeSwiperData } from "@/constants";
 import { useAuthStore } from "@/store/auth-store";
 import WelcomeSlide from "@/components/welcome/welcome-slide";
 import Pagination from "@/components/welcome/pagination";
-import Button from "@/components/ui/button";
+import Button, { getButtonIconColor } from "@/components/ui/button";
 
 const WelcomeScreen = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -48,7 +48,7 @@ const WelcomeScreen = () => {
                   size="lg"
                   onPress={onDone}
                   accessibilityLabel="Get Started"
-                  rightIcon={<ArrowRight size={18} color="#FFFFFF" />}
+                  rightIcon={<ArrowRight size={18} color={getButtonIconColor()} />}
                 />
               </View>
             )}

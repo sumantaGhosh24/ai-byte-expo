@@ -55,6 +55,25 @@ const spinnerColors = {
   success: "#FFFFFF",
 } as const;
 
+const buttonIconColorByVariant: Record<keyof typeof variantStyles, string> = {
+  primary: "#FFFFFF",
+  secondary: "#171717",
+  outline: "#1447e6",
+  warning: "#FFFFFF",
+  danger: "#FFFFFF",
+  success: "#FFFFFF",
+};
+
+export function getButtonIconColor(
+  variant: keyof typeof variantStyles = "primary"
+): string {
+  if (variant === "outline") {
+    return buttonIconColorByVariant["outline"] || "#1447e6";
+  }
+
+  return buttonIconColorByVariant[variant] || "#ffffff";
+}
+
 export interface ButtonProps {
   title?: string;
   children?: ReactNode;

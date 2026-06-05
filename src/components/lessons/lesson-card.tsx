@@ -6,11 +6,12 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import { Image } from "expo-image";
+import { Clock3, Layers3, Sparkles } from "lucide-react-native";
 
 import { LessonItem } from "@/types/lesson.type";
 
 import Card from "../ui/card";
-import Badge from "../ui/badge";
+import Badge, { getBadgeIconColor } from "../ui/badge";
 
 interface LessonCardProps {
   lesson: LessonItem;
@@ -76,10 +77,25 @@ const LessonCard = memo(({ lesson, onPress }: LessonCardProps) => {
                 {lesson.title}
               </Text>
               <View className="flex-row flex-wrap gap-2">
-                <Badge size="sm" label={lesson.duration} variant="secondary" />
-                <Badge label={lesson.difficulty} variant={difficultyVariant} />
+                <Badge
+                  size="sm"
+                  label={lesson.duration}
+                  variant="secondary"
+                  leftIcon={<Clock3 size={12} color={getBadgeIconColor("secondary")} />}
+                />
+                <Badge
+                  label={lesson.difficulty}
+                  variant={difficultyVariant}
+                  leftIcon={
+                    <Layers3 size={12} color={getBadgeIconColor(difficultyVariant)} />
+                  }
+                />
                 {lesson.aiGenerated && (
-                  <Badge size="sm" label="AI Generated" variant="primary" />
+                  <Badge
+                    size="sm"
+                    label="AI Generated"
+                    leftIcon={<Sparkles size={12} color={getBadgeIconColor()} />}
+                  />
                 )}
               </View>
             </View>

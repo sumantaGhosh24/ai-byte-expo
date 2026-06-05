@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState } from "react";
 import { View, Text, useWindowDimensions, RefreshControl } from "react-native";
 import { FlashList } from "@shopify/flash-list";
 import { useLocalSearchParams } from "expo-router";
-import { Search, Star } from "lucide-react-native";
+import { Search, Send, Star } from "lucide-react-native";
 import { useColorScheme } from "nativewind";
 import { Controller, useForm } from "react-hook-form";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
@@ -19,7 +19,7 @@ import {
   ReviewCardSkeleton,
   ReviewsSkeleton,
 } from "@/components/reviews/review-skeleton";
-import Button from "@/components/ui/button";
+import Button, { getButtonIconColor } from "@/components/ui/button";
 import Card from "@/components/ui/card";
 import Input from "@/components/ui/input";
 import { ReviewItem } from "@/types/review.type";
@@ -193,6 +193,7 @@ const ReviewsScreen = () => {
                   title="Submit Review"
                   loading={createReview.isPending}
                   onPress={handleSubmit(onSubmit)}
+                  leftIcon={<Send size={18} color={getButtonIconColor()} />}
                 />
               </View>
             </Card>

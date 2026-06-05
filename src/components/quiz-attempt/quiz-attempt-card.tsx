@@ -1,7 +1,14 @@
 import { memo } from "react";
 import { Text, View } from "react-native";
 import { router } from "expo-router";
-import { Brain, Clock3, Trophy, CheckCircle2, XCircle } from "lucide-react-native";
+import {
+  Brain,
+  Clock3,
+  Trophy,
+  CheckCircle2,
+  XCircle,
+  ChartColumn,
+} from "lucide-react-native";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import { formatDistanceToNow } from "date-fns";
 
@@ -9,7 +16,7 @@ import { QuizAttemptItem } from "@/types/quiz-attempt.type";
 
 import Card from "../ui/card";
 import Badge from "../ui/badge";
-import Button from "../ui/button";
+import Button, { getButtonIconColor } from "../ui/button";
 import ProgressBar from "../ui/progress";
 
 interface QuizAttemptCardProps {
@@ -92,6 +99,7 @@ const QuizAttemptCard = memo(({ attempt }: QuizAttemptCardProps) => {
             title="View Results"
             disabled={attempt.status !== "completed"}
             onPress={() => router.push(`/attempt/${attempt.id}`)}
+            leftIcon={<ChartColumn size={18} color={getButtonIconColor()} />}
           />
         </View>
       </Card>

@@ -5,7 +5,7 @@ import { Flame, Shield, Zap } from "lucide-react-native";
 
 import { ProfileResponse } from "@/types/profile.type";
 
-import Badge from "../ui/badge";
+import Badge, { getBadgeIconColor } from "../ui/badge";
 import Card from "../ui/card";
 import ToggleThemeIcon from "../global/toggle-theme-icon";
 
@@ -62,17 +62,23 @@ const ProfileHeader = memo(
               <Badge
                 label={role}
                 variant={role === "admin" ? "danger" : "secondary"}
-                leftIcon={role === "admin" ? <Shield size={12} /> : undefined}
+                leftIcon={
+                  role === "admin" ? (
+                    <Shield
+                      size={12}
+                      color={getBadgeIconColor(role === "admin" ? "danger" : "secondary")}
+                    />
+                  ) : undefined
+                }
               />
               <Badge
                 label={`Level ${level}`}
-                variant="primary"
-                leftIcon={<Zap size={12} />}
+                leftIcon={<Zap size={12} color={getBadgeIconColor()} />}
               />
               <Badge
                 label={`${streak} Day Streak`}
                 variant="warning"
-                leftIcon={<Flame size={12} />}
+                leftIcon={<Flame size={12} color={getBadgeIconColor("warning")} />}
               />
               <Badge label={`${totalXP.toLocaleString()} XP`} variant="success" />
             </View>

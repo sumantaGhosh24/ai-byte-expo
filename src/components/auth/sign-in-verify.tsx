@@ -6,9 +6,10 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Toast from "react-native-toast-message";
+import { LogIn } from "lucide-react-native";
 
 import Input from "../ui/input";
-import Button from "../ui/button";
+import Button, { getButtonIconColor } from "../ui/button";
 import AuthLayout from "./auth-layout";
 
 const verifySchema = z.object({
@@ -95,6 +96,7 @@ const SignInVerify = () => {
         title="Verify"
         loading={fetchStatus === "fetching"}
         onPress={handleSubmit(handleVerify)}
+        leftIcon={<LogIn size={18} color={getButtonIconColor()} />}
         fullWidth
       />
       <View className="gap-3">

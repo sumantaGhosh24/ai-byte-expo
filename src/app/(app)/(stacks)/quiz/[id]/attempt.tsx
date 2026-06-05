@@ -8,6 +8,7 @@ import Animated, {
   LinearTransition,
 } from "react-native-reanimated";
 import Toast from "react-native-toast-message";
+import { Check, ChevronLeft, ChevronRight, ListChecks } from "lucide-react-native";
 
 import { useQuestions } from "@/hooks/use-questions";
 import { useCreateQuizAttempt } from "@/hooks/use-quiz-attempts";
@@ -15,9 +16,9 @@ import { useQuizAttempt } from "@/hooks/use-quiz-attempt";
 import { usePreventExitQuiz } from "@/hooks/use-prevent-exit-quiz";
 import { errorHaptic, successHaptic } from "@/lib/haptic";
 import Card from "@/components/ui/card";
-import Badge from "@/components/ui/badge";
+import Badge, { getBadgeIconColor } from "@/components/ui/badge";
 import ProgressBar from "@/components/ui/progress";
-import Button from "@/components/ui/button";
+import Button, { getButtonIconColor } from "@/components/ui/button";
 import QuizQuestionCard from "@/components/quizzes/quiz-question-card";
 import QuizCompletionOverlay from "@/components/quizzes/quiz-completion-overlay";
 import { QuizAttemptSkeleton } from "@/components/quizzes/quiz-attempt-skeleton";
@@ -101,14 +102,14 @@ const AttemptScreen = () => {
     <>
       <View className="mb-5 flex-1 px-5 pb-6">
         <Animated.View entering={FadeIn} layout={LinearTransition} className="gap-5">
-          <Card radius="xl" padding="lg">
+          <Card radius="xl" padding="lg" className="mt-5">
             <View className="flex-row items-center justify-between">
               <Text className="text-base font-semibold dark:text-white">
                 Question {currentIndex + 1}
               </Text>
               <Badge
                 label={`${currentIndex + 1}/${questions.length}`}
-                variant="primary"
+                leftIcon={<ListChecks size={12} color={getBadgeIconColor()} />}
               />
             </View>
             <View className="mt-4">
@@ -137,6 +138,7 @@ const AttemptScreen = () => {
             onPress={previous}
             fullWidth={false}
             className="w-1/2"
+            leftIcon={<ChevronLeft size={18} color={getButtonIconColor("secondary")} />}
           />
           {isLastQuestion ? (
             <Button
@@ -145,6 +147,7 @@ const AttemptScreen = () => {
               onPress={submitQuiz}
               fullWidth={false}
               className="w-1/2"
+              leftIcon={<Check size={18} color={getButtonIconColor()} />}
             />
           ) : (
             <Button
@@ -153,6 +156,7 @@ const AttemptScreen = () => {
               onPress={next}
               fullWidth={false}
               className="w-1/2"
+              rightIcon={<ChevronRight size={18} color={getButtonIconColor()} />}
             />
           )}
         </View>

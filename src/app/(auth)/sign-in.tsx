@@ -6,9 +6,10 @@ import { Controller, useForm } from "react-hook-form";
 import { Text, View } from "react-native";
 import Toast from "react-native-toast-message";
 import { z } from "zod";
+import { LogIn } from "lucide-react-native";
 
 import SignInVerify from "@/components/auth/sign-in-verify";
-import Button from "@/components/ui/button";
+import Button, { getButtonIconColor } from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import AuthLayout from "@/components/auth/auth-layout";
 import GoogleSignInButton from "@/components/auth/google-sign-in-button";
@@ -162,6 +163,7 @@ const SignInScreen = () => {
         title="Continue"
         loading={fetchStatus === "fetching"}
         onPress={handleSubmit(handleSignIn)}
+        leftIcon={<LogIn size={18} color={getButtonIconColor()} />}
         fullWidth
       />
       <View className="flex-row items-center gap-3">

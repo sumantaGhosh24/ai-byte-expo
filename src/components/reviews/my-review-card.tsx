@@ -2,13 +2,13 @@ import { memo } from "react";
 import { View, Text } from "react-native";
 import { Image } from "expo-image";
 import Animated, { FadeInDown, LinearTransition } from "react-native-reanimated";
-import { Star, Trash2 } from "lucide-react-native";
+import { Star, Tag, Trash2 } from "lucide-react-native";
 
 import { ReviewItem } from "@/types/review.type";
 
 import Card from "../ui/card";
-import Badge from "../ui/badge";
-import Button from "../ui/button";
+import Badge, { getBadgeIconColor } from "../ui/badge";
+import Button, { getButtonIconColor } from "../ui/button";
 
 type MyReviewCardProps = {
   review: ReviewItem;
@@ -45,7 +45,10 @@ const MyReviewCard = memo(({ review, onDelete }: MyReviewCardProps) => {
               {review.course.title}
             </Text>
             <View className="flex-row items-center justify-between">
-              <Badge label={review.course.category.name} variant="primary" />
+              <Badge
+                label={review.course.category.name}
+                leftIcon={<Tag size={12} color={getBadgeIconColor()} />}
+              />
               <View className="flex-row items-center gap-1">
                 {Array.from({ length: 5 }).map((_, index) => (
                   <Star
@@ -66,7 +69,7 @@ const MyReviewCard = memo(({ review, onDelete }: MyReviewCardProps) => {
             <Button
               variant="danger"
               title="Delete Review"
-              leftIcon={<Trash2 size={18} color="white" />}
+              leftIcon={<Trash2 size={18} color={getButtonIconColor("danger")} />}
               onPress={onDelete}
             />
           </View>

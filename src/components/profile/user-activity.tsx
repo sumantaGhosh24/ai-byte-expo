@@ -1,6 +1,7 @@
 import { memo, ReactNode } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
+import { router } from "expo-router";
 import { Award, BookOpen, CheckCircle2, Flame } from "lucide-react-native";
 
 import { PublicProfileResponse } from "@/types/profile.type";
@@ -101,24 +102,29 @@ const UserActivity = memo(({ publicData, stats }: UserActivityProps) => {
         </View>
       </Card>
       {!!lastEnroll?.course?.thumbnailUrl && (
-        <Card radius="xl" padding="none" className="overflow-hidden">
-          <Image
-            source={{
-              uri: lastEnroll.course.thumbnailUrl,
-            }}
-            style={{
-              width: "100%",
-              height: 180,
-            }}
-            contentFit="cover"
-          />
-          <View className="p-4">
-            <Text className="font-bold dark:text-white">{lastEnroll.course.title}</Text>
-            <Text className="mt-2 text-neutral-500 dark:text-neutral-400">
-              Continue where you left off
-            </Text>
-          </View>
-        </Card>
+        <Pressable onPress={() => router.push(`/course/${lastEnroll.course.id}`)}>
+          <Card radius="xl" padding="none" className="overflow-hidden">
+            <Image
+              source={{
+                uri: lastEnroll.course.thumbnailUrl,
+              }}
+              style={{
+                width: "100%",
+                height: 180,
+              }}
+              contentFit="cover"
+            />
+            <View className="p-4">
+              <Text className="font-bold dark:text-white">
+                {lastEnroll.course.title.charAt(0).toUpperCase() +
+                  lastEnroll.course.title.slice(1)}
+              </Text>
+              <Text className="mt-2 text-neutral-500 dark:text-neutral-400">
+                Continue where you left off
+              </Text>
+            </View>
+          </Card>
+        </Pressable>
       )}
     </View>
   );

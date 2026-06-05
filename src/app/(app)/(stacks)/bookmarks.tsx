@@ -22,7 +22,7 @@ import EmptyState from "@/components/courses/empty-state";
 import CourseCardSkeleton from "@/components/courses/course-card-skeleton";
 import Badge from "@/components/ui/badge";
 import Input from "@/components/ui/input";
-import Button from "@/components/ui/button";
+import Button, { getButtonIconColor } from "@/components/ui/button";
 import { CourseDifficulty } from "@/types/course.type";
 
 const difficultyOptions: CourseDifficulty[] = ["beginner", "intermediate", "expert"];
@@ -184,7 +184,7 @@ const BookmarksScreen = () => {
       <Animated.View entering={FadeIn} className="absolute bottom-6 right-6">
         <Button
           title="Filters"
-          leftIcon={<SlidersHorizontal size={18} color="white" />}
+          leftIcon={<SlidersHorizontal size={18} color={getButtonIconColor()} />}
           onPress={() => setFiltersVisible(true)}
         />
       </Animated.View>

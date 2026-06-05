@@ -6,13 +6,21 @@ import Animated, {
   FadeInUp,
   LinearTransition,
 } from "react-native-reanimated";
-import { Brain, RotateCcw } from "lucide-react-native";
+import {
+  Brain,
+  Layers3,
+  ListChecks,
+  Play,
+  RotateCcw,
+  Sparkles,
+  Target,
+} from "lucide-react-native";
 
 import { usePublicQuiz } from "@/hooks/use-quizzes";
 import Spinner from "@/components/ui/spinner";
 import Card from "@/components/ui/card";
-import Badge from "@/components/ui/badge";
-import Button from "@/components/ui/button";
+import Badge, { getBadgeIconColor } from "@/components/ui/badge";
+import Button, { getButtonIconColor } from "@/components/ui/button";
 import { QuizScreenSkeleton } from "@/components/quizzes/quizzes-skeleton";
 
 const QuizScreen = () => {
@@ -85,10 +93,30 @@ const QuizScreen = () => {
                 )}
               </View>
               <View className="flex-row flex-wrap gap-3">
-                <Badge label={quiz.difficulty} variant={difficultyVariant} />
-                <Badge label={`${quiz._count.questions} Questions`} variant="secondary" />
-                <Badge label={`${quiz.passingScore}% Pass`} variant="primary" />
-                {quiz.aiGenerated && <Badge label="AI Generated" variant="primary" />}
+                <Badge
+                  label={quiz.difficulty}
+                  variant={difficultyVariant}
+                  leftIcon={
+                    <Layers3 size={12} color={getBadgeIconColor(difficultyVariant)} />
+                  }
+                />
+                <Badge
+                  label={`${quiz._count.questions} Questions`}
+                  variant="secondary"
+                  leftIcon={
+                    <ListChecks size={12} color={getBadgeIconColor("secondary")} />
+                  }
+                />
+                <Badge
+                  label={`${quiz.passingScore}% Pass`}
+                  leftIcon={<Target size={12} color={getBadgeIconColor()} />}
+                />
+                {quiz.aiGenerated && (
+                  <Badge
+                    label="AI Generated"
+                    leftIcon={<Sparkles size={12} color={getBadgeIconColor()} />}
+                  />
+                )}
               </View>
             </View>
           </Card>
@@ -162,7 +190,11 @@ const QuizScreen = () => {
         entering={FadeInUp}
         className="absolute bottom-0 left-0 right-0 border-t border-neutral-200 bg-white px-4 py-4 dark:border-neutral-800 dark:bg-neutral-950"
       >
-        <Button title="Start Quiz" variant="primary" onPress={handleStartQuiz} />
+        <Button
+          title="Start Quiz"
+          onPress={handleStartQuiz}
+          leftIcon={<Play size={18} color={getButtonIconColor()} />}
+        />
       </Animated.View>
     </View>
   );

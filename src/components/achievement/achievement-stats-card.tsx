@@ -12,7 +12,7 @@ interface AchievementStatsCardProps {
 const Stat = ({ label, value }: { label: string; value: number }) => {
   return (
     <View className="items-center">
-      <Text className="text-xl font-bold">{value}</Text>
+      <Text className="text-xl font-bold dark:text-white">{value}</Text>
       <Text className="text-xs text-neutral-500">{label}</Text>
     </View>
   );

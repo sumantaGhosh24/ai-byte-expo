@@ -29,7 +29,7 @@ const FeaturedAchievementCard = memo(({ achievement }: Props) => {
         />
         <View className="ml-4 flex-1">
           <Text className="text-xs text-neutral-500">Latest Achievement</Text>
-          <Text className="mt-1 text-xl font-bold capitalize">
+          <Text className="mt-1 text-xl font-bold capitalize dark:text-white">
             {achievement.achievement.title}
           </Text>
           <Text className="mt-1 text-neutral-500">

@@ -4,7 +4,7 @@ import { useRouter } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import Toast from "react-native-toast-message";
 
-import Button from "../ui/button";
+import Button, { getButtonIconColor } from "../ui/button";
 
 const GoogleSignInButton = memo(() => {
   const { startSSOFlow } = useSSO();
@@ -43,7 +43,9 @@ const GoogleSignInButton = memo(() => {
       variant="outline"
       title="Continue with Google"
       onPress={handleGoogleSignIn}
-      leftIcon={<FontAwesome name="chrome" size={24} color="#1447e6" />}
+      leftIcon={
+        <FontAwesome name="chrome" size={24} color={getButtonIconColor("outline")} />
+      }
       fullWidth
     />
   );

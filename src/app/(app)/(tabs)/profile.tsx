@@ -5,6 +5,7 @@ import Animated, {
   FadeInUp,
   LinearTransition,
 } from "react-native-reanimated";
+import { LogOut } from "lucide-react-native";
 
 import { useLogout } from "@/hooks/use-logout";
 import { useProfile, usePublicProfile } from "@/hooks/use-profile";
@@ -13,7 +14,7 @@ import ProfileHeader from "@/components/profile/profile-header";
 import ProfileSkeleton from "@/components/profile/profile-skeleton";
 import ProfileTabs from "@/components/profile/profile-tabs";
 import QuickActions from "@/components/profile/quick-actions";
-import Button from "@/components/ui/button";
+import Button, { getButtonIconColor } from "@/components/ui/button";
 
 const ProfileScreen = () => {
   const [activeTab, setActiveTab] = useState<"overview" | "xp" | "activity">("overview");
@@ -106,7 +107,12 @@ const ProfileScreen = () => {
           />
         </Animated.View>
         <Animated.View entering={FadeInUp.delay(400)} style={{ marginTop: 20 }}>
-          <Button title="Log out" variant="danger" onPress={logout} />
+          <Button
+            title="Log out"
+            variant="danger"
+            onPress={logout}
+            leftIcon={<LogOut size={18} color={getButtonIconColor("danger")} />}
+          />
         </Animated.View>
       </View>
     </ScrollView>

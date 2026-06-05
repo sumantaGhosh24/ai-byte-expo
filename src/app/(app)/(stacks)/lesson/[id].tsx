@@ -7,13 +7,13 @@ import Animated, {
   LinearTransition,
 } from "react-native-reanimated";
 import { useLocalSearchParams } from "expo-router";
-import { BookOpen, Clock3 } from "lucide-react-native";
+import { BookOpen, CheckCircle2, Clock2, Clock3, Layers3 } from "lucide-react-native";
 
 import { useLesson } from "@/hooks/use-lessons";
 import { useProgress, useUpdateProgress } from "@/hooks/use-progresses";
 import { useReadingTime } from "@/hooks/use-reading-time";
-import Badge from "@/components/ui/badge";
-import Button from "@/components/ui/button";
+import Badge, { getBadgeIconColor } from "@/components/ui/badge";
+import Button, { getButtonIconColor } from "@/components/ui/button";
 import Card from "@/components/ui/card";
 import Spinner from "@/components/ui/spinner";
 import LessonMarkdown from "@/components/lessons/lesson-markdown";
@@ -136,22 +136,34 @@ const LessonScreen = () => {
               <Badge
                 label={isCompleted ? "Completed" : "In Progress"}
                 variant={isCompleted ? "success" : "warning"}
+                leftIcon={
+                  <Clock2
+                    size={12}
+                    color={getBadgeIconColor(isCompleted ? "success" : "warning")}
+                  />
+                }
               />
               <Text className="text-2xl font-bold dark:text-white">{lesson.title}</Text>
               <Text className="text-muted-foreground dark:text-white">
                 {lesson.course.title}
               </Text>
               <View className="flex-row flex-wrap gap-3">
-                <Badge label={lesson.difficulty} variant={difficultyVariant} />
+                <Badge
+                  label={lesson.difficulty}
+                  variant={difficultyVariant}
+                  leftIcon={
+                    <Layers3 size={12} color={getBadgeIconColor(difficultyVariant)} />
+                  }
+                />
                 <Badge
                   label={`${lesson.duration} min`}
                   variant="secondary"
-                  leftIcon={<Clock3 size={14} />}
+                  leftIcon={<Clock3 size={14} color={getBadgeIconColor("secondary")} />}
                 />
                 <Badge
                   label={`${readingTime.minutes} min read`}
                   variant="secondary"
-                  leftIcon={<BookOpen size={14} />}
+                  leftIcon={<BookOpen size={14} color={getBadgeIconColor("secondary")} />}
                 />
                 {lesson.aiGenerated && <Badge label="AI Generated" variant="primary" />}
               </View>
@@ -183,6 +195,12 @@ const LessonScreen = () => {
           disabled={isCompleted || updateProgress.isPending}
           loading={updateProgress.isPending}
           onPress={handleComplete}
+          leftIcon={
+            <CheckCircle2
+              size={18}
+              color={getButtonIconColor(isCompleted ? "success" : "primary")}
+            />
+          }
         />
       </Animated.View>
     </View>

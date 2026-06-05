@@ -19,7 +19,7 @@ import QuickLinks from "@/components/courses/quick-links";
 import CategoryChip from "@/components/courses/category-chip";
 import Badge from "@/components/ui/badge";
 import Input from "@/components/ui/input";
-import Button from "@/components/ui/button";
+import Button, { getButtonIconColor } from "@/components/ui/button";
 import ExploreSkeleton from "@/components/courses/explore-skeleton";
 import TrendingCourseCard from "@/components/courses/trending-course-card";
 import { CourseDifficulty } from "@/types/course.type";
@@ -190,7 +190,7 @@ const ExploreScreen = () => {
       <Animated.View entering={FadeIn} className="absolute bottom-6 right-6">
         <Button
           title="Filters"
-          leftIcon={<SlidersHorizontal size={18} color="white" />}
+          leftIcon={<SlidersHorizontal size={18} color={getButtonIconColor()} />}
           onPress={() => setFiltersVisible(true)}
         />
       </Animated.View>

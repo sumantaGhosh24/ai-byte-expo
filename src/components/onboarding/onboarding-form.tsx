@@ -17,6 +17,8 @@ import {
   CloudSun,
   Sunset,
   Moon,
+  TrendingUp,
+  Send,
 } from "lucide-react-native";
 
 import { useUpdateProfilePreferences } from "@/hooks/use-profile";
@@ -26,8 +28,8 @@ import {
 } from "@/schemas/profile.schema";
 import { Profile } from "@/types/profile.type";
 
-import Button from "../ui/button";
-import Badge from "../ui/badge";
+import Button, { getButtonIconColor } from "../ui/button";
+import Badge, { getBadgeIconColor } from "../ui/badge";
 import Card from "../ui/card";
 import SettingSwitch from "../ui/setting-switch";
 import ProgressBar from "../ui/progress";
@@ -168,7 +170,10 @@ const OnboardingForm = memo(({ profile, header = true }: ProfileProps) => {
             <View className="gap-4">
               <View className="flex-row items-center justify-between">
                 <Text className="font-semibold dark:text-white">Setup Progress</Text>
-                <Badge label={`${progress}%`} variant="primary" />
+                <Badge
+                  label={`${progress}%`}
+                  leftIcon={<TrendingUp size={12} color={getBadgeIconColor()} />}
+                />
               </View>
               <ProgressBar progress={progress} showLabel={false} />
               <Text className="text-sm text-neutral-500">
@@ -315,6 +320,7 @@ const OnboardingForm = memo(({ profile, header = true }: ProfileProps) => {
             title="Continue"
             fullWidth
             loading={updatePreferences.isPending}
+            leftIcon={<Send size={18} color={getButtonIconColor()} />}
             onPress={handleSubmit(onSubmit)}
           />
         </Animated.View>
