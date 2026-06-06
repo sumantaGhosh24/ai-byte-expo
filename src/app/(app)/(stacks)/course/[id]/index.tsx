@@ -11,6 +11,7 @@ import {
 import { router, useLocalSearchParams } from "expo-router";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
+import * as Haptics from "expo-haptics";
 import Animated, {
   FadeInDown,
   FadeInUp,
@@ -34,6 +35,7 @@ import {
 } from "lucide-react-native";
 import Toast from "react-native-toast-message";
 
+import { createCourseShareLink } from "@/lib/deep-links";
 import { useMyCourse } from "@/hooks/use-courses";
 import { useBookmark, useCreateBookmark, useDeleteBookmark } from "@/hooks/use-bookmarks";
 import { useCreateEnroll, useDeleteEnroll, useEnroll } from "@/hooks/use-enrolls";
@@ -269,10 +271,17 @@ const CourseScreen = () => {
   const handleShare = useCallback(async () => {
     if (!course) return;
 
+    const shareUrl = createCourseShareLink(course.id);
+
     try {
+      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+
       await Share.share({
-        title: course.title,
-        message: `${course.title}\n\n${course.description}`,
+        title: `${course.title.charAt(0).toUpperCase() + course.title.slice(1)}`,
+        message: `📚 ${
+          course.title.charAt(0).toUpperCase() + course.title.slice(1)
+        } \n\n ⭐ ${course.averageReview.toFixed(1)} Rating \n 👨‍🎓 ${course.enrollsCount} Students \n 📖 ${course.lessonsCount} Lessons \n\n Learn now: ${shareUrl}`,
+        url: shareUrl,
       });
     } catch {}
   }, [course]);

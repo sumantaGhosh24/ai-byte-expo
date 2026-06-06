@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "AIByte",
-    "slug": "ai-byte",
+    "slug": "aibyte",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/ios-light.png",
@@ -58,6 +58,19 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "b1fbb6b4-58c8-4c26-88d2-b6550814b0c3"
+      }
+    },
+    "owner": "sumantaghosh24s-organization",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/b1fbb6b4-58c8-4c26-88d2-b6550814b0c3"
     }
   }
 }
