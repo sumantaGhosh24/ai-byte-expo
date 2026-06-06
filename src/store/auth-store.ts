@@ -12,6 +12,9 @@ type UserState = {
   hasUserCompletedOnboarding: boolean;
   setUserHasCompletedOnboarding: () => void;
   resetUserOnboarding: () => void;
+  registeredPushToken: string | null;
+  setRegisteredPushToken: (token: string) => void;
+  clearRegisteredPushToken: () => void;
   _hasHydrated: boolean;
   setHasHydrated: (value: boolean) => void;
 };
@@ -25,6 +28,9 @@ export const useAuthStore = create(
       hasUserCompletedOnboarding: false,
       setUserHasCompletedOnboarding: () => set({ hasUserCompletedOnboarding: true }),
       resetUserOnboarding: () => set({ hasUserCompletedOnboarding: false }),
+      registeredPushToken: null,
+      setRegisteredPushToken: (token) => set({ registeredPushToken: token }),
+      clearRegisteredPushToken: () => set({ registeredPushToken: null }),
       _hasHydrated: false,
       setHasHydrated: (value) => set({ _hasHydrated: value }),
     }),

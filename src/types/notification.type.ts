@@ -51,9 +51,14 @@ export interface NotificationItem {
   message: string;
   type: NotificationType;
   read: boolean;
-  relatedCourseId?: string | null;
-  relatedLessonId?: string | null;
-  relatedQuizId?: string | null;
+  metadata: {
+    courseId?: string;
+    lessonId?: string;
+    quizId?: string;
+    attemptId?: string;
+    achievementId?: string;
+    reminderType?: string;
+  } | null;
   sentAt: string;
   createdAt: string;
   updatedAt: string;
@@ -72,8 +77,9 @@ export interface NotificationTokensResponse {
 
 export interface NotificationsResponse {
   success: boolean;
-  notifications: {
+  result: {
     items: NotificationItem[];
+    unreadCount: number;
     paginations: Pagination;
   };
 }

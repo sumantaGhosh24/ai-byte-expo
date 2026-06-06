@@ -14,6 +14,7 @@ import Toast from "react-native-toast-message";
 
 import { queryClient } from "@/lib/react-query";
 import { useAuthStore } from "@/store/auth-store";
+import { NotificationProvider } from "@/providers/notification-provider";
 
 import "../../global.css";
 
@@ -99,8 +100,10 @@ export default Sentry.wrap(function RootLayout() {
         <QueryClientProvider client={queryClient}>
           <GestureHandlerRootView style={{ flex: 1 }}>
             <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-              <InitialLayout />
-              <Toast topOffset={50} />
+              <NotificationProvider>
+                <InitialLayout />
+                <Toast topOffset={50} />
+              </NotificationProvider>
             </ThemeProvider>
           </GestureHandlerRootView>
         </QueryClientProvider>

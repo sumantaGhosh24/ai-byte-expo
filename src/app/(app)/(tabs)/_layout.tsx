@@ -10,6 +10,7 @@ import { useColorScheme } from "nativewind";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { View, Text } from "react-native";
 
+import { useNotifications } from "@/hooks/use-notifications";
 import AnimatedTabIcon from "@/components/layout/animated-tab-icon";
 import HeaderStats from "@/components/layout/header-stats";
 
@@ -22,7 +23,7 @@ const NotificationBadge = ({ count }: { count: number }) => {
         numberOfLines={1}
         ellipsizeMode="clip"
       >
-        {count > 10 ? "10+" : count}
+        {count > 99 ? "99+" : count}
       </Text>
     </View>
   );
@@ -41,7 +42,7 @@ const TabLayout = () => {
 
   const border = isDark ? "#323234" : "#e5e7eb";
 
-  const notificationsCount = 3;
+  const { data } = useNotifications();
 
   return (
     <Tabs
@@ -115,7 +116,7 @@ const TabLayout = () => {
                   <Ionicons name="notifications-outline" size={size} color={color} />
                 )}
               </AnimatedTabIcon>
-              <NotificationBadge count={notificationsCount} />
+              <NotificationBadge count={data?.pages?.[0]?.result?.unreadCount ?? 0} />
             </View>
           ),
         }}

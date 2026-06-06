@@ -1,37 +1,47 @@
 import { useAuth } from "@clerk/expo";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation } from "@tanstack/react-query";
 import type { AxiosResponse } from "axios";
 
 import { queryClient } from "@/lib/react-query";
 import type {
   NotificationResponse,
   NotificationsResponse,
-  NotificationTokensResponse,
   NotificationTokenResponse,
   RegisterNotificationTokenPayload,
   MarkNotificationReadPayload,
   MarkAllNotificationsReadResponse,
   UseNotificationsParams,
+  NotificationItem,
 } from "@/types/notification.type";
 
 import { useApi } from "./use-api";
 
-export function useNotificationTokens() {
-  const api = useApi();
-
-  const { isLoaded, isSignedIn } = useAuth();
-
-  return useQuery<NotificationTokensResponse>({
-    queryKey: ["notification-tokens"],
-    queryFn: async () => {
-      const response: AxiosResponse<NotificationTokensResponse> =
-        await api.get("/notifications/token");
-
-      return response.data;
+export function updateNotificationCache(
+  updater: (notification: NotificationItem) => NotificationItem,
+  unreadCountUpdater?: (count: number) => number
+) {
+  queryClient.setQueriesData(
+    {
+      queryKey: ["notifications"],
     },
-    retry: false,
-    enabled: isLoaded && isSignedIn,
-  });
+    (oldData: any) => {
+      if (!oldData) return oldData;
+
+      return {
+        ...oldData,
+        pages: oldData.pages.map((page: any) => ({
+          ...page,
+          result: {
+            ...page.result,
+            unreadCount: unreadCountUpdater
+              ? unreadCountUpdater(page.result.unreadCount)
+              : page.result.unreadCount,
+            items: page.result.items.map(updater),
+          },
+        })),
+      };
+    }
+  );
 }
 
 export function useRegisterNotificationToken() {
@@ -52,23 +62,20 @@ export function useRegisterNotificationToken() {
   });
 }
 
-export function useNotifications({
-  page = 1,
-  limit = 20,
-  type,
-}: UseNotificationsParams = {}) {
+export function useNotifications({ limit = 20, type }: UseNotificationsParams = {}) {
   const api = useApi();
 
   const { isLoaded, isSignedIn } = useAuth();
 
-  return useQuery<NotificationsResponse>({
-    queryKey: ["notifications", page, limit, type],
-    queryFn: async () => {
+  return useInfiniteQuery<NotificationsResponse>({
+    queryKey: ["notifications", limit, type],
+    initialPageParam: 1,
+    queryFn: async ({ pageParam }) => {
       const response: AxiosResponse<NotificationsResponse> = await api.get(
         "/notifications",
         {
           params: {
-            page,
+            page: pageParam,
             limit,
             type,
           },
@@ -76,6 +83,10 @@ export function useNotifications({
       );
       return response.data;
     },
+    getNextPageParam: (lastPage) => {
+      return lastPage.result.paginations.nextPage ?? undefined;
+    },
+    staleTime: 1000 * 60 * 5,
     retry: false,
     enabled: isLoaded && isSignedIn,
   });
@@ -92,9 +103,11 @@ export function useMarkNotificationRead() {
       return response.data;
     },
     retry: false,
-    onSuccess: async (_, variables) => {
-      await queryClient.invalidateQueries({ queryKey: ["notifications"] });
-      await queryClient.invalidateQueries({ queryKey: ["notification", variables.id] });
+    onMutate: async ({ id }) => {
+      updateNotificationCache(
+        (item) => (item.id === id ? { ...item, read: true } : item),
+        (count) => Math.max(0, count - 1)
+      );
     },
   });
 }
@@ -110,8 +123,11 @@ export function useMarkAllNotificationsRead() {
       return response.data;
     },
     retry: false,
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["notifications"] });
+    onMutate: async () => {
+      updateNotificationCache(
+        (item) => ({ ...item, read: true }),
+        () => 0
+      );
     },
   });
 }

@@ -8,7 +8,7 @@ import { useAuthStore } from "@/store/auth-store";
 export function useLogout() {
   const { signOut } = useClerk();
 
-  const { resetUserOnboarding } = useAuthStore();
+  const { resetUserOnboarding, clearRegisteredPushToken } = useAuthStore();
 
   async function logout() {
     try {
@@ -17,6 +17,8 @@ export function useLogout() {
       queryClient.clear();
 
       resetUserOnboarding();
+
+      clearRegisteredPushToken();
 
       await signOut();
 
