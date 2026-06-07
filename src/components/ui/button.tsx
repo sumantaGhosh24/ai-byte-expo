@@ -168,8 +168,10 @@ const Button = memo(
             {children ?? (
               <Text
                 numberOfLines={1}
+                adjustsFontSizeToFit
+                minimumFontScale={0.9}
                 className={cn(
-                  "shrink text-base font-semibold",
+                  "text-center text-base font-semibold",
                   textStyles[variant],
                   textClassName
                 )}

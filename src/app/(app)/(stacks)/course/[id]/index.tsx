@@ -37,8 +37,8 @@ import Toast from "react-native-toast-message";
 
 import { createCourseShareLink } from "@/lib/deep-links";
 import { useMyCourse } from "@/hooks/use-courses";
-import { useBookmark, useCreateBookmark, useDeleteBookmark } from "@/hooks/use-bookmarks";
-import { useCreateEnroll, useDeleteEnroll, useEnroll } from "@/hooks/use-enrolls";
+import { useCreateBookmark, useDeleteBookmark } from "@/hooks/use-bookmarks";
+import { useCreateEnroll, useDeleteEnroll } from "@/hooks/use-enrolls";
 import CourseDetailsSkeleton from "@/components/courses/course-details-skeleton";
 import Button, { getButtonIconColor } from "@/components/ui/button";
 import Badge, { getBadgeIconColor } from "@/components/ui/badge";
@@ -59,20 +59,6 @@ const CourseScreen = () => {
     refetch: courseRefetch,
   } = useMyCourse(id);
 
-  const {
-    data: bookmarkData,
-    isLoading: bookmarkLoading,
-    isRefetching: bookmarkRefetching,
-    refetch: bookmarkRefetch,
-  } = useBookmark(id);
-
-  const {
-    data: enrollData,
-    isLoading: enrollLoading,
-    isRefetching: enrollRefetching,
-    refetch: enrollRefetch,
-  } = useEnroll(id);
-
   const createBookmark = useCreateBookmark();
   const deleteBookmark = useDeleteBookmark();
 
@@ -81,17 +67,17 @@ const CourseScreen = () => {
 
   const course = courseData?.course;
 
-  const bookmark = bookmarkData?.bookmark;
+  const isBookmarked = course?.isBookmarked;
 
-  const enroll = enrollData?.enroll;
+  const isEnrolled = course?.isEnrolled;
 
-  const isBookmarked = !!bookmarkData?.bookmark;
+  const bookmark = course?.bookmark;
 
-  const isEnrolled = !!enroll;
+  const enroll = course?.enrollment;
 
-  const initialLoading = courseLoading || bookmarkLoading || enrollLoading;
+  const initialLoading = courseLoading;
 
-  const refreshing = courseRefetching || bookmarkRefetching || enrollRefetching;
+  const refreshing = courseRefetching;
 
   const difficultyVariant = useMemo(() => {
     switch (course?.difficulty) {
@@ -122,13 +108,13 @@ const CourseScreen = () => {
   );
 
   const refetchAll = useCallback(async () => {
-    await Promise.all([courseRefetch(), bookmarkRefetch(), enrollRefetch()]);
-  }, [courseRefetch, bookmarkRefetch, enrollRefetch]);
+    await Promise.all([courseRefetch()]);
+  }, [courseRefetch]);
 
   const handleBookmark = useCallback(() => {
     if (!course) return;
 
-    if (isBookmarked && bookmark) {
+    if (isBookmarked && bookmark?.id) {
       Alert.alert(
         "Remove Bookmark",
         "Are you sure you want to remove this course from bookmarks?",
@@ -140,7 +126,7 @@ const CourseScreen = () => {
             onPress: () =>
               deleteBookmark.mutate(
                 {
-                  bookmarkId: bookmark.id,
+                  bookmarkId: bookmark?.id as string,
                 },
                 {
                   onSuccess: (data) => {
@@ -187,12 +173,12 @@ const CourseScreen = () => {
         },
       }
     );
-  }, [bookmark, course, createBookmark, deleteBookmark, isBookmarked]);
+  }, [bookmark?.id, course, createBookmark, deleteBookmark, isBookmarked]);
 
   const handleEnroll = useCallback(() => {
     if (!course) return;
 
-    if (isEnrolled && enroll) {
+    if (isEnrolled && enroll?.id) {
       Alert.alert("Leave Course", "Are you sure you want to remove this enrollment?", [
         {
           text: "Cancel",
@@ -204,7 +190,7 @@ const CourseScreen = () => {
           onPress: () =>
             deleteEnroll.mutate(
               {
-                enrollId: enroll.id,
+                enrollId: enroll?.id as string,
               },
               {
                 onSuccess: (data) => {
@@ -250,7 +236,7 @@ const CourseScreen = () => {
         },
       }
     );
-  }, [course, enroll, isEnrolled, createEnroll, deleteEnroll]);
+  }, [course, isEnrolled, enroll?.id, createEnroll, deleteEnroll]);
 
   const handleProtectedRoute = useCallback(
     (path: string) => {

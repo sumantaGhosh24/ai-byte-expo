@@ -6,7 +6,7 @@ import { useColorScheme } from "nativewind";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
 import Toast from "react-native-toast-message";
 
-import { useDebounce } from "@/hooks/use-debouce";
+import { useDebounce } from "@/hooks/use-debounce";
 import { useDeleteReview, useUserReviews } from "@/hooks/use-reviews";
 import EmptyReviews from "@/components/reviews/empty-reviews";
 import MyReviewCard from "@/components/reviews/my-review-card";

@@ -9,11 +9,6 @@ export interface ProgressItem {
   updatedAt: string;
 }
 
-export interface GetProgressResponse {
-  success: boolean;
-  progress: ProgressItem;
-}
-
 export interface UpdateProgressPayload {
   lessonId: string;
   completed?: boolean;

@@ -11,7 +11,7 @@ import { FlashList } from "@shopify/flash-list";
 import { Flame, Search, SlidersHorizontal, Sparkles, X } from "lucide-react-native";
 import { useColorScheme } from "nativewind";
 
-import { useDebounce } from "@/hooks/use-debouce";
+import { useDebounce } from "@/hooks/use-debounce";
 import { useCategories } from "@/hooks/use-categories";
 import { useRecommendedCourses, useTrendingCourses } from "@/hooks/use-courses";
 import CourseCard from "@/components/courses/course-card";

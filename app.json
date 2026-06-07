@@ -22,11 +22,7 @@
       },
       "predictiveBackGestureEnabled": false,
       "package": "com.anonymous.aibyte",
-      "permissions": [
-        "POST_NOTIFICATIONS",
-        "RECEIVE_BOOT_COMPLETED",
-        "VIBRATE"
-      ]
+      "permissions": ["POST_NOTIFICATIONS", "RECEIVE_BOOT_COMPLETED", "VIBRATE"]
     },
     "web": {
       "output": "server",

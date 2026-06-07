@@ -13,11 +13,6 @@ export interface BookmarkItem {
   createdAt: string;
 }
 
-export interface BookmarkResponse {
-  success: boolean;
-  bookmark: BookmarkItem;
-}
-
 export interface CreateBookmarkResponse {
   success: boolean;
   message: string;

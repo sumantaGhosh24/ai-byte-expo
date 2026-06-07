@@ -10,7 +10,7 @@ import { useLocalSearchParams } from "expo-router";
 import { BookOpen, CheckCircle2, Clock2, Clock3, Layers3 } from "lucide-react-native";
 
 import { useLesson } from "@/hooks/use-lessons";
-import { useProgress, useUpdateProgress } from "@/hooks/use-progresses";
+import { useUpdateProgress } from "@/hooks/use-progresses";
 import { useReadingTime } from "@/hooks/use-reading-time";
 import Badge, { getBadgeIconColor } from "@/components/ui/badge";
 import Button, { getButtonIconColor } from "@/components/ui/button";
@@ -30,18 +30,11 @@ const LessonScreen = () => {
     refetch: lessonRefetch,
   } = useLesson(id);
 
-  const {
-    data: progressData,
-    isLoading: progressLoading,
-    isRefetching: progressRefetching,
-    refetch: progressRefetch,
-  } = useProgress(id);
-
   const updateProgress = useUpdateProgress();
 
   const lesson = lessonData?.lesson;
 
-  const progress = progressData?.progress;
+  const progress = lesson?.progress;
 
   const isCompleted = progress?.completed ?? false;
 
@@ -70,13 +63,13 @@ const LessonScreen = () => {
     }
   }, [lesson?.difficulty]);
 
-  const isRefetching = lessonRefetching || progressRefetching;
+  const isRefetching = lessonRefetching;
 
   const onRefresh = useCallback(async () => {
-    await Promise.all([lessonRefetch(), progressRefetch()]);
-  }, [lessonRefetch, progressRefetch]);
+    await Promise.all([lessonRefetch()]);
+  }, [lessonRefetch]);
 
-  if (lessonLoading || progressLoading) {
+  if (lessonLoading) {
     return <LessonScreenSkeleton />;
   }
 

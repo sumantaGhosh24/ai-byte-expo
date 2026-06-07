@@ -40,6 +40,18 @@ export interface CourseItem {
   bookmarksCount: number;
   reviewsCount: number;
   averageReview: number;
+  isEnrolled: boolean;
+  isBookmarked: boolean;
+  enrollment: {
+    id: string;
+    completed: boolean;
+    finishedLessons: number;
+    startedAt: Date;
+    finishedAt: Date | null;
+  } | null;
+  bookmark: {
+    id: string;
+  } | null;
 }
 
 export interface CoursesResponse {

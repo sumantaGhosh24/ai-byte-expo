@@ -7,10 +7,10 @@ import { useColorScheme } from "nativewind";
 import { Controller, useForm } from "react-hook-form";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
 import Toast from "react-native-toast-message";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-import { useDebounce } from "@/hooks/use-debouce";
+import { useDebounce } from "@/hooks/use-debounce";
 import { useMyCourse } from "@/hooks/use-courses";
-import { useEnroll } from "@/hooks/use-enrolls";
 import { useCourseReviews, useCreateReview } from "@/hooks/use-reviews";
 import EmptyReviews from "@/components/reviews/empty-reviews";
 import RatingSelector from "@/components/reviews/rating-selector";
@@ -45,8 +45,6 @@ const ReviewsScreen = () => {
 
   const { data: courseData } = useMyCourse(id);
 
-  const { data: enrollData } = useEnroll(id);
-
   const {
     data,
     isLoading,
@@ -63,7 +61,7 @@ const ReviewsScreen = () => {
 
   const course = courseData?.course;
 
-  const isEnrolled = !!enrollData?.enroll;
+  const isEnrolled = courseData?.course?.isEnrolled;
 
   const reviews = useMemo(
     () => data?.pages.flatMap((page) => page.result.items) ?? [],
@@ -158,46 +156,52 @@ const ReviewsScreen = () => {
           />
         </Animated.View>
         {isEnrolled && (
-          <Animated.View entering={FadeInDown.delay(200)}>
-            <Card>
-              <View className="gap-5">
-                <Text className="text-lg font-semibold dark:text-white">
-                  Write Review
-                </Text>
-                <RatingSelector value={rating} onChange={setRating} />
-                <Controller
-                  control={control}
-                  name="message"
-                  rules={{
-                    required: "Review is required",
-                    minLength: {
-                      value: 10,
-                      message: "Minimum 10 characters",
-                    },
-                  }}
-                  render={({ field: { value, onChange } }) => (
-                    <Input
-                      label="Review"
-                      value={value}
-                      onChangeText={onChange}
-                      multiline
-                      numberOfLines={5}
-                      maxLength={500}
-                      error={errors.message?.message}
-                      placeholder="Share your learning experience..."
-                      textAlignVertical="top"
-                    />
-                  )}
-                />
-                <Button
-                  title="Submit Review"
-                  loading={createReview.isPending}
-                  onPress={handleSubmit(onSubmit)}
-                  leftIcon={<Send size={18} color={getButtonIconColor()} />}
-                />
-              </View>
-            </Card>
-          </Animated.View>
+          <KeyboardAwareScrollView
+            enableOnAndroid
+            keyboardShouldPersistTaps="handled"
+            extraScrollHeight={20}
+          >
+            <Animated.View entering={FadeInDown.delay(200)}>
+              <Card>
+                <View className="gap-5">
+                  <Text className="text-lg font-semibold dark:text-white">
+                    Write Review
+                  </Text>
+                  <RatingSelector value={rating} onChange={setRating} />
+                  <Controller
+                    control={control}
+                    name="message"
+                    rules={{
+                      required: "Review is required",
+                      minLength: {
+                        value: 10,
+                        message: "Minimum 10 characters",
+                      },
+                    }}
+                    render={({ field: { value, onChange } }) => (
+                      <Input
+                        label="Review"
+                        value={value}
+                        onChangeText={onChange}
+                        multiline
+                        numberOfLines={5}
+                        maxLength={500}
+                        error={errors.message?.message}
+                        placeholder="Share your learning experience..."
+                        textAlignVertical="top"
+                      />
+                    )}
+                  />
+                  <Button
+                    title="Submit Review"
+                    loading={createReview.isPending}
+                    onPress={handleSubmit(onSubmit)}
+                    leftIcon={<Send size={18} color={getButtonIconColor()} />}
+                  />
+                </View>
+              </Card>
+            </Animated.View>
+          </KeyboardAwareScrollView>
         )}
         <Text className="text-lg font-semibold dark:text-white">
           Reviews ({reviews.length})

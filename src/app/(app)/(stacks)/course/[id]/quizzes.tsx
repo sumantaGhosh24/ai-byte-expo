@@ -6,7 +6,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import { Search } from "lucide-react-native";
 import { useColorScheme } from "nativewind";
 
-import { useDebounce } from "@/hooks/use-debouce";
+import { useDebounce } from "@/hooks/use-debounce";
 import { useMyCourse } from "@/hooks/use-courses";
 import { usePublicQuizzes } from "@/hooks/use-quizzes";
 import Input from "@/components/ui/input";

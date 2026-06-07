@@ -7,8 +7,7 @@ import { Search } from "lucide-react-native";
 import { useColorScheme } from "nativewind";
 
 import { useMyCourse } from "@/hooks/use-courses";
-import { useDebounce } from "@/hooks/use-debouce";
-import { useEnroll } from "@/hooks/use-enrolls";
+import { useDebounce } from "@/hooks/use-debounce";
 import { useLessons } from "@/hooks/use-lessons";
 import { useUpdateProgress } from "@/hooks/use-progresses";
 import CourseHero from "@/components/courses/course-hero";
@@ -41,8 +40,6 @@ const LessonsScreen = () => {
 
   const { data: courseData, isLoading: courseLoading } = useMyCourse(id);
 
-  const { data: enrollData, refetch: refetchEnroll } = useEnroll(id);
-
   const {
     data: lessonsData,
     isLoading: lessonsLoading,
@@ -64,13 +61,13 @@ const LessonsScreen = () => {
     [lessonsData]
   );
 
-  const progressPercentage = useMemo(() => {
-    if (!enrollData || !lessons.length) {
-      return 0;
-    }
+  const enrollment = courseData?.course?.enrollment;
 
-    return Math.round((enrollData.enroll.finishedLessons / lessons.length) * 100);
-  }, [enrollData, lessons.length]);
+  const progressPercentage = useMemo(() => {
+    if (!enrollment?.finishedLessons) return;
+
+    return Math.round((enrollment?.finishedLessons / lessons.length) * 100);
+  }, [enrollment?.finishedLessons, lessons.length]);
 
   const handleLessonPress = useCallback(
     async (lessonId: string) => {
@@ -81,8 +78,6 @@ const LessonsScreen = () => {
           lessonId,
           startedAt: new Date().toISOString(),
         });
-
-        await refetchEnroll();
       } catch {
       } finally {
         setProcessing(false);
@@ -90,7 +85,7 @@ const LessonsScreen = () => {
 
       router.push(`/lesson/${lessonId}`);
     },
-    [updateProgress, refetchEnroll]
+    [updateProgress]
   );
 
   const loadMore = useCallback(() => {
@@ -112,18 +107,20 @@ const LessonsScreen = () => {
     () => (
       <View className="mt-4 gap-6 px-4 pb-6">
         <CourseHero course={courseData?.course!} />
-        <EnrollProgressCard
-          enroll={enrollData?.enroll}
-          lessonsCount={lessons.length}
-          progress={progressPercentage}
-        />
+        {enrollment && (
+          <EnrollProgressCard
+            enroll={enrollment}
+            lessonsCount={lessons.length}
+            progress={progressPercentage!}
+          />
+        )}
         <Input
           value={search}
           onChangeText={setSearch}
           placeholder="Search lessons..."
           leftIcon={<Search size={18} color={isDark ? "white" : "black"} />}
         />
-        <View className="flex-row items-center justify-between">
+        <View className="mb-5 flex-row items-center justify-between">
           <Text className="text-xl font-bold text-neutral-900 dark:text-white">
             Lessons
           </Text>
@@ -131,14 +128,7 @@ const LessonsScreen = () => {
         </View>
       </View>
     ),
-    [
-      courseData?.course,
-      enrollData?.enroll,
-      lessons.length,
-      progressPercentage,
-      search,
-      isDark,
-    ]
+    [courseData?.course, enrollment, lessons.length, progressPercentage, search, isDark]
   );
 
   const renderFooter = () => {

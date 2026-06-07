@@ -37,6 +37,13 @@ export interface LessonItem {
   orderIndex: number;
   courseId: string;
   progressCount: number;
+  isCompleted: boolean;
+  progress: {
+    id: string;
+    completed: boolean;
+    startedAt: Date;
+    finishedAt: Date | null;
+  } | null;
   createdAt: string;
   updatedAt: string;
 }

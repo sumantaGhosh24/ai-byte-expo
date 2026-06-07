@@ -35,9 +35,7 @@ export function usePushToken() {
         });
 
         setRegisteredPushToken(token);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch {}
     }
 
     setup();

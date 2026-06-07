@@ -16,11 +16,6 @@ export interface DeleteEnrollPayload {
   enrollId: string;
 }
 
-export interface EnrollResponse {
-  success: boolean;
-  enroll: EnrollItem;
-}
-
 export interface EnrollMutationResponse {
   success: boolean;
   enroll: EnrollItem;

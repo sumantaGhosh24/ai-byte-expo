@@ -1,12 +1,12 @@
 import { memo, useMemo } from "react";
-import { Pressable, View, Text } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
 import { Image } from "expo-image";
-import { Clock3, Layers3, Sparkles } from "lucide-react-native";
+import { CheckCircle2, Clock3, Layers3, PlayCircle, Sparkles } from "lucide-react-native";
 
 import { LessonItem } from "@/types/lesson.type";
 
@@ -21,12 +21,12 @@ interface LessonCardProps {
 const LessonCard = memo(({ lesson, onPress }: LessonCardProps) => {
   const scale = useSharedValue(1);
 
-  const style = useAnimatedStyle(() => ({
+  const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
   }));
 
   const difficultyVariant = useMemo(() => {
-    switch (lesson?.difficulty) {
+    switch (lesson.difficulty) {
       case "beginner":
         return "success";
 
@@ -39,40 +39,67 @@ const LessonCard = memo(({ lesson, onPress }: LessonCardProps) => {
       default:
         return "secondary";
     }
-  }, [lesson?.difficulty]);
+  }, [lesson.difficulty]);
+
+  const lessonStatus = useMemo(() => {
+    if (lesson.isCompleted) {
+      return "completed";
+    }
+
+    if (lesson.progress) {
+      return "in-progress";
+    }
+
+    return "not-started";
+  }, [lesson.isCompleted, lesson.progress]);
 
   return (
     <Pressable
       onPressIn={() => {
-        scale.value = withSpring(0.97);
+        scale.value = withSpring(0.98);
       }}
       onPressOut={() => {
         scale.value = withSpring(1);
       }}
       onPress={onPress}
     >
-      <Animated.View style={style}>
+      <Animated.View style={animatedStyle}>
         <Card padding="lg" radius="xl" shadow="sm">
-          <View className="flex-row items-center gap-4">
-            <Image
-              source={{
-                uri:
-                  lesson.thumbnailUrl ??
-                  "https://res.cloudinary.com/dvgmcfzhe/image/upload/v1780545856/600x400_cvsbr9.png",
-              }}
-              contentFit="cover"
-              transition={300}
-              cachePolicy="memory-disk"
-              style={{
-                width: 64,
-                height: 64,
-                borderRadius: 16,
-              }}
-            />
-            <View className="flex-1 gap-2">
+          <View className="flex-row gap-4">
+            <View className="relative">
+              <Image
+                source={{
+                  uri:
+                    lesson.thumbnailUrl ??
+                    "https://res.cloudinary.com/dvgmcfzhe/image/upload/v1780545856/600x400_cvsbr9.png",
+                }}
+                contentFit="cover"
+                transition={300}
+                cachePolicy="memory-disk"
+                style={{
+                  width: 84,
+                  height: 84,
+                  borderRadius: 20,
+                }}
+              />
+              <View className="absolute left-2 top-2 rounded-full bg-black/70 px-2 py-1">
+                <Text className="text-xs font-semibold text-white">
+                  #{lesson.orderIndex}
+                </Text>
+              </View>
+            </View>
+            <View className="flex-1 gap-3">
+              <View className="flex-row flex-wrap gap-2">
+                {lessonStatus === "completed" && (
+                  <Badge size="sm" label="Completed" variant="success" />
+                )}
+                {lessonStatus === "in-progress" && (
+                  <Badge size="sm" label="In Progress" variant="warning" />
+                )}
+              </View>
               <Text
                 numberOfLines={2}
-                className="font-semibold text-neutral-900 dark:text-white"
+                className="text-base font-bold text-neutral-900 dark:text-white"
               >
                 {lesson.title}
               </Text>
@@ -84,6 +111,7 @@ const LessonCard = memo(({ lesson, onPress }: LessonCardProps) => {
                   leftIcon={<Clock3 size={12} color={getBadgeIconColor("secondary")} />}
                 />
                 <Badge
+                  size="sm"
                   label={lesson.difficulty}
                   variant={difficultyVariant}
                   leftIcon={
@@ -93,9 +121,32 @@ const LessonCard = memo(({ lesson, onPress }: LessonCardProps) => {
                 {lesson.aiGenerated && (
                   <Badge
                     size="sm"
-                    label="AI Generated"
+                    label="AI"
                     leftIcon={<Sparkles size={12} color={getBadgeIconColor()} />}
                   />
+                )}
+                {!!lesson.videoUrl && (
+                  <Badge
+                    size="sm"
+                    label="Video"
+                    variant="primary"
+                    leftIcon={
+                      <PlayCircle size={12} color={getBadgeIconColor("primary")} />
+                    }
+                  />
+                )}
+              </View>
+              <View className="flex-row items-center justify-between border-t border-neutral-200 pt-3 dark:border-neutral-800">
+                <Text className="text-xs text-neutral-500">
+                  {lesson.progressCount.toLocaleString()} learners completed
+                </Text>
+                {lesson.progress?.startedAt && !lesson.isCompleted && (
+                  <Text className="text-xs font-medium text-[#1447e6]">Continue →</Text>
+                )}
+                {lesson.isCompleted && (
+                  <View>
+                    <CheckCircle2 size={22} color="#22c55e" fill="#74ffa7" />
+                  </View>
                 )}
               </View>
             </View>

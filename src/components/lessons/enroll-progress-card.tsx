@@ -29,7 +29,7 @@ const EnrollProgressCard = memo(
               {enroll.finishedLessons} of {lessonsCount} lessons completed
             </Text>
           </View>
-          <ProgressBar progress={progress} showLabel />
+          <ProgressBar progress={progress ?? 0} showLabel />
           {enroll.completed ? (
             <Button title="Course Completed 🎉" variant="success" disabled />
           ) : (
