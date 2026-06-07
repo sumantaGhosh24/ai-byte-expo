@@ -1,8 +1,8 @@
 import { View, useWindowDimensions } from "react-native";
-import { Skeleton } from "moti/skeleton";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import Card from "@/components/ui/card";
+import Card from "../ui/card";
+import Skeleton from "../ui/skeleton";
 
 export default function OnboardingSkeleton() {
   const { width } = useWindowDimensions();

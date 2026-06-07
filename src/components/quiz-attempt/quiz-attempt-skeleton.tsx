@@ -1,7 +1,7 @@
 import { View } from "react-native";
-import { Skeleton } from "moti/skeleton";
 
 import Card from "../ui/card";
+import Skeleton from "../ui/skeleton";
 
 export const QuizAttemptCardSkeleton = () => {
   return (
@@ -41,19 +41,16 @@ export const QuizAttemptsSkeleton = () => {
     <View className="flex-1">
       <View className="gap-5 px-4 py-4">
         <View className="gap-2">
-          <View className="h-8 w-52 rounded-xl bg-neutral-200 dark:bg-neutral-800" />
-          <View className="h-4 w-40 rounded-lg bg-neutral-200 dark:bg-neutral-800" />
+          <Skeleton className="h-8 w-52 rounded-xl" />
+          <Skeleton className="h-4 w-40 rounded-lg" />
         </View>
-        <View className="h-12 rounded-2xl bg-neutral-200 dark:bg-neutral-800" />
+        <Skeleton className="h-12 rounded-2xl" />
         <View className="flex-row gap-2">
           {Array.from({ length: 4 }).map((_, index) => (
-            <View
-              key={index}
-              className="h-9 w-24 rounded-full bg-neutral-200 dark:bg-neutral-800"
-            />
+            <Skeleton key={index} className="h-9 w-24 rounded-full" />
           ))}
         </View>
-        <View className="h-5 w-28 rounded-lg bg-neutral-200 dark:bg-neutral-800" />
+        <Skeleton className="h-5 w-28 rounded-lg" />
       </View>
       <View className="px-2">
         {Array.from({ length: 5 }).map((_, index) => (

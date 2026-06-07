@@ -1,5 +1,6 @@
 import { ScrollView, View } from "react-native";
-import { Skeleton } from "moti/skeleton";
+
+import Skeleton from "../ui/skeleton";
 
 const ProfileSkeleton = () => {
   return (
@@ -7,7 +8,7 @@ const ProfileSkeleton = () => {
       <View className="h-40 bg-neutral-200 dark:bg-neutral-900" />
       <View className="px-4">
         <View className="-mt-16">
-          <Skeleton radius="round" width={120} height={120} />
+          <Skeleton radius={10} width={120} height={120} />
         </View>
         <View className="mt-4">
           <Skeleton width={"60%"} height={30} />

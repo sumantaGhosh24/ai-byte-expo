@@ -1,7 +1,7 @@
 import { ScrollView, View } from "react-native";
-import { Skeleton } from "moti/skeleton";
 
 import CourseCardSkeleton from "./course-card-skeleton";
+import Skeleton from "../ui/skeleton";
 
 const CategorySkeleton = () => {
   return (

@@ -1,7 +1,7 @@
 import { View } from "react-native";
-import { Skeleton } from "moti/skeleton";
 
 import CourseCardSkeleton from "./course-card-skeleton";
+import Skeleton from "../ui/skeleton";
 
 const CategorySkeleton = () => <Skeleton width={90} height={36} radius={999} />;
 

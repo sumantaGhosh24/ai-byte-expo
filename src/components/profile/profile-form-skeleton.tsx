@@ -1,14 +1,14 @@
 import { View } from "react-native";
-import { Skeleton } from "moti/skeleton";
 
 import Card from "../ui/card";
+import Skeleton from "../ui/skeleton";
 
 const ProfileFormSkeleton = () => {
   return (
     <View className="px-4">
       <Card radius="xl" padding="lg">
         <View className="items-center">
-          <Skeleton width={112} height={112} radius="round" />
+          <Skeleton width={112} height={112} radius={10} />
           <View className="mt-4">
             <Skeleton width={140} height={20} />
           </View>

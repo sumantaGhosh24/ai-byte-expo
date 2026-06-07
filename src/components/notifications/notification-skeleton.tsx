@@ -1,7 +1,7 @@
 import { View } from "react-native";
-import { Skeleton } from "moti/skeleton";
 
 import Card from "../ui/card";
+import Skeleton from "../ui/skeleton";
 
 export const NotificationCardSkeleton = () => {
   return (
