@@ -1,6 +1,6 @@
 import { router } from "expo-router";
 
-export const APP_URL = "https://aibyte.expo.app";
+export const APP_URL = "https://aibyte--nlbvp9bhca.expo.app";
 
 export const createCourseShareLink = (courseId: string) => {
   return `${APP_URL}/course/${courseId}`;
