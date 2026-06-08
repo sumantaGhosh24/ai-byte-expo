@@ -49,8 +49,10 @@ const TabLayout = () => {
       screenOptions={{
         headerShadowVisible: false,
         headerStyle: { backgroundColor: bg },
+        headerStatusBarHeight: insets.top,
         headerTitleStyle: {
-          fontWeight: "700",
+          fontWeight: "800",
+          fontSize: 24,
           color: isDark ? "#fff" : "#111827",
         },
         headerRight: () => <HeaderStats />,
@@ -60,16 +62,20 @@ const TabLayout = () => {
         tabBarStyle: {
           backgroundColor: bg,
           borderTopColor: border,
-          height: 70 + insets.bottom,
-          paddingTop: 8,
-          paddingBottom: insets.bottom,
+          height: 52 + (insets.bottom > 0 ? insets.bottom - 10 : 0),
+          paddingTop: 0,
+          paddingBottom: insets.bottom > 0 ? insets.bottom - 10 : 0,
           elevation: 0,
           shadowOpacity: 0,
+          borderTopWidth: 1,
         },
         tabBarLabelStyle: {
-          fontSize: 11,
-          fontWeight: "600",
-          marginTop: 2,
+          fontSize: 10,
+          fontWeight: "700",
+          marginBottom: 4,
+        },
+        tabBarIconStyle: {
+          marginTop: 4,
         },
       }}
     >

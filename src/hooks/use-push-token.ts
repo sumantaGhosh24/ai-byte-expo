@@ -8,14 +8,16 @@ import { useRegisterNotificationToken } from "./use-notifications";
 import { useAuthStore } from "@/store/auth-store";
 
 export function usePushToken() {
-  const { isSignedIn } = useAuth();
+  const { isSignedIn, isLoaded } = useAuth();
 
   const registerNotificationToken = useRegisterNotificationToken();
 
-  const { registeredPushToken, setRegisteredPushToken } = useAuthStore();
+  const { registeredPushToken, setRegisteredPushToken, _hasHydrated } = useAuthStore();
 
   useEffect(() => {
-    if (!isSignedIn) return;
+    if (!isLoaded || !isSignedIn || !_hasHydrated || Platform.OS === "web") {
+      return;
+    }
 
     let mounted = true;
 
@@ -23,7 +25,7 @@ export function usePushToken() {
       try {
         const token = await registerForPushNotifications();
 
-        if (!mounted) return;
+        if (!mounted || !token) return;
 
         if (registeredPushToken === token) {
           return;
@@ -44,5 +46,5 @@ export function usePushToken() {
       mounted = false;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSignedIn]);
+  }, [isSignedIn, isLoaded, _hasHydrated, registeredPushToken]);
 }

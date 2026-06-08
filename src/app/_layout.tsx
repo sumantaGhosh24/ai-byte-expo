@@ -86,7 +86,7 @@ const InitialLayout = () => {
           <Stack.Screen name="index" options={{ headerShown: false }} />
         </Stack.Protected>
       </Stack>
-      <StatusBar style="inverted" />
+      <StatusBar style="auto" />
     </Fragment>
   );
 };

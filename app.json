@@ -22,7 +22,12 @@
       },
       "predictiveBackGestureEnabled": false,
       "package": "com.anonymous.aibyte",
-      "permissions": ["POST_NOTIFICATIONS", "RECEIVE_BOOT_COMPLETED", "VIBRATE"]
+      "permissions": ["POST_NOTIFICATIONS", "RECEIVE_BOOT_COMPLETED", "VIBRATE"],
+      "statusBar": {
+        "barStyle": "dark-content",
+        "backgroundColor": "#00000000",
+        "translucent": true
+      }
     },
     "web": {
       "output": "server",
