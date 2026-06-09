@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Text, View, Pressable, useWindowDimensions, RefreshControl } from "react-native";
 import Animated, {
   FadeIn,
-  FadeInUp,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
@@ -10,6 +9,7 @@ import Animated, {
 import { FlashList } from "@shopify/flash-list";
 import { Search, SlidersHorizontal, X } from "lucide-react-native";
 import { useColorScheme } from "nativewind";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useDebounce } from "@/hooks/use-debounce";
 import { useCategories } from "@/hooks/use-categories";
@@ -29,6 +29,8 @@ const difficultyOptions: CourseDifficulty[] = ["beginner", "intermediate", "expe
 
 const MyCoursesScreen = () => {
   const { width } = useWindowDimensions();
+
+  const insets = useSafeAreaInsets();
 
   const { colorScheme } = useColorScheme();
 
@@ -96,7 +98,7 @@ const MyCoursesScreen = () => {
   };
 
   const renderCourse = useCallback(
-    ({ item, index }: any) => (
+    ({ item }: any) => (
       <View className={isTablet ? "px-2" : ""}>
         <CourseCard course={item} />
       </View>
@@ -106,13 +108,7 @@ const MyCoursesScreen = () => {
 
   const renderHeader = useMemo(
     () => (
-      <View className="gap-6 px-4 pb-4 pt-2">
-        <Animated.View entering={FadeInUp.duration(400)}>
-          <Text className="text-3xl font-bold text-neutral-900 dark:text-white">
-            My Courses
-          </Text>
-          <Text className="mt-1 text-neutral-500">The courses i already enrolled</Text>
-        </Animated.View>
+      <View className="mt-5 gap-6 px-4 pb-4 pt-2">
         <Input
           placeholder="Search courses..."
           value={search}
@@ -181,7 +177,11 @@ const MyCoursesScreen = () => {
         }}
         refreshControl={<RefreshControl refreshing={isRefetching} onRefresh={refetch} />}
       />
-      <Animated.View entering={FadeIn} className="absolute bottom-6 right-6">
+      <Animated.View
+        entering={FadeIn}
+        className="absolute bottom-6 right-6"
+        style={{ paddingBottom: insets.bottom > 0 ? insets.bottom : 0 }}
+      >
         <Button
           title="Filters"
           leftIcon={<SlidersHorizontal size={18} color={getButtonIconColor()} />}
@@ -219,6 +219,7 @@ const MyCoursesScreen = () => {
               ))}
             </View>
             <Button title="Clear Filters" variant="outline" onPress={clearFilters} />
+            <View style={{ height: insets.bottom > 0 ? insets.bottom : 0 }} />
           </Animated.View>
         </>
       )}

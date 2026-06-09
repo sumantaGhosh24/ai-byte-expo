@@ -234,7 +234,7 @@ const ProfileForm = memo(({ profile }: ProfileProps) => {
       enableOnAndroid
       keyboardShouldPersistTaps="handled"
       extraScrollHeight={20}
-      contentContainerStyle={{ flexGrow: 1 }}
+      contentContainerStyle={{ flexGrow: 1, paddingBottom: 40 }}
       showsVerticalScrollIndicator={false}
     >
       <View className="flex-1 px-5 py-8">

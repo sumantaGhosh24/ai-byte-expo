@@ -1,11 +1,7 @@
 import { useMemo, useState } from "react";
 import { View, Pressable, useWindowDimensions, RefreshControl } from "react-native";
 import { FlashList } from "@shopify/flash-list";
-import Animated, {
-  FadeInDown,
-  FadeInUp,
-  LinearTransition,
-} from "react-native-reanimated";
+import Animated, { FadeInDown, LinearTransition } from "react-native-reanimated";
 
 import { useUserAchievements } from "@/hooks/use-achievements";
 import { useProfile } from "@/hooks/use-profile";
@@ -57,19 +53,10 @@ const AchievementsScreen = () => {
       numColumns={isTablet ? 3 : 2}
       key={isTablet ? "tablet" : "mobile"}
       keyExtractor={(item) => item.id}
-      contentContainerStyle={{ padding: 20 }}
+      contentContainerStyle={{ padding: 20, paddingBottom: 120 }}
       refreshControl={<RefreshControl refreshing={isRefetching} onRefresh={refetch} />}
       ListHeaderComponent={
         <View className="mb-6">
-          <Animated.Text
-            entering={FadeInUp}
-            className="text-3xl font-bold text-neutral-900 dark:text-white"
-          >
-            All Achievements
-          </Animated.Text>
-          <Animated.Text entering={FadeInUp.delay(100)} className="mt-2 text-neutral-500">
-            Celebrate your learning milestones.
-          </Animated.Text>
           {!!latestAchievement && (
             <Animated.View entering={FadeInDown.delay(200)} className="mt-6">
               <FeaturedAchievementCard achievement={latestAchievement} />

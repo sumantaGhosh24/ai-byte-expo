@@ -9,6 +9,7 @@ import Animated, {
 } from "react-native-reanimated";
 import Toast from "react-native-toast-message";
 import { Check, ChevronLeft, ChevronRight, ListChecks } from "lucide-react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useQuestions } from "@/hooks/use-questions";
 import { useCreateQuizAttempt } from "@/hooks/use-quiz-attempts";
@@ -25,6 +26,8 @@ import { QuizAttemptSkeleton } from "@/components/quizzes/quiz-attempt-skeleton"
 
 const AttemptScreen = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
+
+  const insets = useSafeAreaInsets();
 
   const [showCompletion, setShowCompletion] = useState(false);
 
@@ -130,7 +133,10 @@ const AttemptScreen = () => {
             />
           </Animated.View>
         </Animated.View>
-        <View className="mt-auto flex-row gap-3 pt-6">
+        <View
+          className="mt-auto flex-row gap-3 pt-6"
+          style={{ paddingBottom: insets.bottom > 0 ? insets.bottom : 0 }}
+        >
           <Button
             title="Previous"
             variant="secondary"

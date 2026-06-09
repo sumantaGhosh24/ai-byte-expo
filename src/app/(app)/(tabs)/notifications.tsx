@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { RefreshControl, Text, View, Pressable, useWindowDimensions } from "react-native";
 import Animated, {
   FadeIn,
-  FadeInUp,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
@@ -123,15 +122,7 @@ const NotificationsScreen = () => {
 
   const renderHeader = useMemo(
     () => (
-      <View className="gap-6 px-4 pb-4 pt-2">
-        <Animated.View entering={FadeInUp.duration(400)}>
-          <Text className="text-3xl font-bold text-neutral-900 dark:text-white">
-            All Notifications
-          </Text>
-          <Text className="mt-1 text-neutral-500">
-            Stay updated with your learning progress
-          </Text>
-        </Animated.View>
+      <View className="mt-5 gap-6 px-4 pb-4 pt-2">
         <Card>
           <View className="flex-row items-center justify-between">
             <View>

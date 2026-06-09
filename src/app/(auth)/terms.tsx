@@ -5,7 +5,7 @@ import Spinner from "@/components/ui/spinner";
 
 const TermsScreen = () => {
   return (
-    <SafeAreaView className="flex-1 bg-white dark:bg-black">
+    <SafeAreaView className="flex-1">
       <WebView
         source={{
           uri: "https://www.lipsum.com",

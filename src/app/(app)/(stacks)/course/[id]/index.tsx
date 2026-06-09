@@ -12,6 +12,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import * as Haptics from "expo-haptics";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, {
   FadeInDown,
   FadeInUp,
@@ -51,6 +52,8 @@ const CourseScreen = () => {
   const { width } = useWindowDimensions();
 
   const isTablet = width >= 768;
+
+  const insets = useSafeAreaInsets();
 
   const {
     data: courseData,
@@ -499,7 +502,7 @@ const CourseScreen = () => {
           </Animated.View>
         </View>
       </ScrollView>
-      <View className="absolute bottom-0 left-0 right-0 border-t border-neutral-200 bg-white px-4 py-4 dark:border-neutral-800 dark:bg-neutral-950">
+      <View className="absolute bottom-0 left-0 right-0 border-t border-neutral-200 bg-white px-4 pt-4 dark:border-neutral-800 dark:bg-neutral-950">
         <View className="flex-row gap-3">
           <Button
             className="flex-1"
@@ -528,6 +531,7 @@ const CourseScreen = () => {
             }
           />
         </View>
+        <View style={{ height: insets.bottom > 0 ? insets.bottom : 0 }} />
       </View>
     </View>
   );

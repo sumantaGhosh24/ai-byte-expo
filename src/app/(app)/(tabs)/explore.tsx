@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from "react";
 import { Text, View, Pressable, useWindowDimensions, RefreshControl } from "react-native";
 import Animated, {
   FadeIn,
-  FadeInUp,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
@@ -127,14 +126,7 @@ const ExploreScreen = () => {
           </View>
         )}
         ListHeaderComponent={
-          <View className="gap-6 px-4 pb-6 pt-2">
-            <Animated.View entering={FadeInUp}>
-              <Text className="text-3xl font-bold dark:text-white">Explore</Text>
-
-              <Text className="mt-1 text-neutral-500">
-                Discover your next learning journey
-              </Text>
-            </Animated.View>
+          <View className="mt-5 gap-6 px-4 pb-6 pt-2">
             <Input
               placeholder="Search courses..."
               value={search}

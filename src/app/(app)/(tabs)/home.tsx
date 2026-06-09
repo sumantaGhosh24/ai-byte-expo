@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Text, View, Pressable, useWindowDimensions, RefreshControl } from "react-native";
 import Animated, {
   FadeIn,
-  FadeInUp,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
@@ -106,15 +105,7 @@ export default function HomeScreen() {
 
   const renderHeader = useMemo(
     () => (
-      <View className="gap-6 px-4 pb-4 pt-2">
-        <Animated.View entering={FadeInUp.duration(400)}>
-          <Text className="text-3xl font-bold text-neutral-900 dark:text-white">
-            Discover Courses
-          </Text>
-          <Text className="mt-1 text-neutral-500">
-            Learn new skills and advance your career
-          </Text>
-        </Animated.View>
+      <View className="mt-5 gap-6 px-4 pb-4 pt-2">
         <Input
           placeholder="Search courses..."
           value={search}

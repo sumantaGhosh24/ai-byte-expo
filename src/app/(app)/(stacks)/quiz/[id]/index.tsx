@@ -15,6 +15,7 @@ import {
   Sparkles,
   Target,
 } from "lucide-react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { usePublicQuiz } from "@/hooks/use-quizzes";
 import Spinner from "@/components/ui/spinner";
@@ -25,6 +26,8 @@ import { QuizScreenSkeleton } from "@/components/quizzes/quizzes-skeleton";
 
 const QuizScreen = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
+
+  const insets = useSafeAreaInsets();
 
   const { data, isLoading, isRefetching, refetch } = usePublicQuiz(id);
 
@@ -195,6 +198,7 @@ const QuizScreen = () => {
           onPress={handleStartQuiz}
           leftIcon={<Play size={18} color={getButtonIconColor()} />}
         />
+        <View style={{ height: insets.bottom > 0 ? insets.bottom : 0 }} />
       </Animated.View>
     </View>
   );

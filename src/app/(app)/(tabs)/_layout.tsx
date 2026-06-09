@@ -52,7 +52,7 @@ const TabLayout = () => {
         headerStatusBarHeight: insets.top,
         headerTitleStyle: {
           fontWeight: "800",
-          fontSize: 24,
+          fontSize: 22,
           color: isDark ? "#fff" : "#111827",
         },
         headerRight: () => <HeaderStats />,
@@ -62,9 +62,9 @@ const TabLayout = () => {
         tabBarStyle: {
           backgroundColor: bg,
           borderTopColor: border,
-          height: 52 + (insets.bottom > 0 ? insets.bottom - 10 : 0),
+          height: 55 + (insets.bottom > 0 ? insets.bottom : 0),
           paddingTop: 0,
-          paddingBottom: insets.bottom > 0 ? insets.bottom - 10 : 0,
+          paddingBottom: insets.bottom > 0 ? insets.bottom : 0,
           elevation: 0,
           shadowOpacity: 0,
           borderTopWidth: 1,

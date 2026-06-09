@@ -25,7 +25,9 @@ export function usePushToken() {
       try {
         const token = await registerForPushNotifications();
 
-        if (!mounted || !token) return;
+        if (!mounted || !token) {
+          return;
+        }
 
         if (registeredPushToken === token) {
           return;
@@ -37,7 +39,9 @@ export function usePushToken() {
         });
 
         setRegisteredPushToken(token);
-      } catch {}
+      } catch (error) {
+        console.log("Failed to register push token:", error);
+      }
     }
 
     setup();

@@ -24,8 +24,8 @@ const actions = [
   { title: "Reviews", icon: Star, route: "/my-reviews" },
   { title: "Quiz Attempts", icon: Brain, route: "/my-quiz-attempts" },
   { title: "Achievements", icon: Trophy, route: "/achievements" },
-  { title: "Update", icon: User, route: "/settings/account" },
-  { title: "Preferences", icon: Settings, route: "/settings/preferences" },
+  { title: "Update Account", icon: User, route: "/settings/account" },
+  { title: "Update Preferences", icon: Settings, route: "/settings/preferences" },
 ];
 
 function ActionItem({ title, route, icon: Icon }: any) {

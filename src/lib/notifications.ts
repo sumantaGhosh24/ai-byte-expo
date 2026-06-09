@@ -28,7 +28,7 @@ export async function registerForPushNotifications() {
   }
 
   if (finalStatus !== "granted") {
-    throw new Error("Permission denied");
+    return;
   }
 
   if (Platform.OS === "android") {
@@ -40,9 +40,21 @@ export async function registerForPushNotifications() {
     });
   }
 
-  const token = await Notifications.getExpoPushTokenAsync({
-    projectId: Constants.expoConfig?.extra?.eas?.projectId,
-  });
+  try {
+    const projectId =
+      Constants.expoConfig?.extra?.eas?.projectId ?? Constants.easConfig?.projectId;
 
-  return token.data;
+    if (!projectId) {
+      console.log("No project ID found in expoConfig or easConfig");
+    }
+
+    const token = await Notifications.getExpoPushTokenAsync({
+      projectId,
+    });
+
+    return token.data;
+  } catch (error) {
+    console.log("Error getting push token:", error);
+    return;
+  }
 }

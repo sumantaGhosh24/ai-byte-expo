@@ -8,6 +8,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { useLocalSearchParams } from "expo-router";
 import { BookOpen, CheckCircle2, Clock2, Clock3, Layers3 } from "lucide-react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useLesson } from "@/hooks/use-lessons";
 import { useUpdateProgress } from "@/hooks/use-progresses";
@@ -22,6 +23,8 @@ import { LessonScreenSkeleton } from "@/components/lessons/lesson-screen-skeleto
 
 const LessonScreen = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
+
+  const insets = useSafeAreaInsets();
 
   const {
     data: lessonData,
@@ -195,6 +198,7 @@ const LessonScreen = () => {
             />
           }
         />
+        <View style={{ height: insets.bottom > 0 ? insets.bottom : 0 }} />
       </Animated.View>
     </View>
   );

@@ -3,7 +3,7 @@ import { View, Text, useWindowDimensions, Alert, RefreshControl } from "react-na
 import { FlashList } from "@shopify/flash-list";
 import { Search } from "lucide-react-native";
 import { useColorScheme } from "nativewind";
-import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
+import Animated, { FadeInDown } from "react-native-reanimated";
 import Toast from "react-native-toast-message";
 
 import { useDebounce } from "@/hooks/use-debounce";
@@ -104,13 +104,7 @@ const ReviewsScreen = () => {
 
   const renderHeader = useMemo(
     () => (
-      <View className={`gap-5 px-4 py-4 ${isTablet ? "mx-auto w-full max-w-3xl" : ""}`}>
-        <Animated.View entering={FadeInUp.duration(400)}>
-          <Text className="text-3xl font-bold text-neutral-900 dark:text-white">
-            My Reviews
-          </Text>
-          <Text className="mt-1 text-neutral-500">All of my reviews</Text>
-        </Animated.View>
+      <View className="mt-5 gap-6 px-4 pb-4 pt-2">
         <Animated.View entering={FadeInDown.delay(100)}>
           <Input
             placeholder="Search reviews..."
@@ -124,7 +118,7 @@ const ReviewsScreen = () => {
         </Text>
       </View>
     ),
-    [isDark, isTablet, reviews.length, search]
+    [isDark, reviews.length, search]
   );
 
   const renderFooter = () => {

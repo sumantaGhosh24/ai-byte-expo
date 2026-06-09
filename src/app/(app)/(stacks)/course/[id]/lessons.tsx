@@ -70,17 +70,18 @@ const LessonsScreen = () => {
   }, [enrollment?.finishedLessons, lessons.length]);
 
   const handleLessonPress = useCallback(
-    async (lessonId: string) => {
-      setProcessing(true);
-
-      try {
-        await updateProgress.mutateAsync({
-          lessonId,
-          startedAt: new Date().toISOString(),
-        });
-      } catch {
-      } finally {
-        setProcessing(false);
+    async (lessonId: string, completed: boolean) => {
+      if (!completed) {
+        setProcessing(true);
+        try {
+          await updateProgress.mutateAsync({
+            lessonId,
+            startedAt: new Date().toISOString(),
+          });
+        } catch {
+        } finally {
+          setProcessing(false);
+        }
       }
 
       router.push(`/lesson/${lessonId}`);
@@ -97,7 +98,10 @@ const LessonsScreen = () => {
   const renderLesson = useCallback(
     ({ item, index }: any) => (
       <Animated.View entering={FadeInUp.delay(index * 40)} className="mb-3 px-4">
-        <LessonCard lesson={item} onPress={() => handleLessonPress(item.id)} />
+        <LessonCard
+          lesson={item}
+          onPress={() => handleLessonPress(item.id, item.progress.completed)}
+        />
       </Animated.View>
     ),
     [handleLessonPress]

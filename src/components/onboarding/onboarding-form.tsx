@@ -153,7 +153,7 @@ const OnboardingForm = memo(({ profile, header = true }: ProfileProps) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 40 }}>
         <View className={`px-5 py-8 ${isTablet ? "mx-auto max-w-3xl" : ""}`}>
           {header && (
             <Animated.View entering={FadeInDown.delay(100)}>
