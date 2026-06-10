@@ -11,6 +11,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import * as SplashScreen from "expo-splash-screen";
 import * as WebBrowser from "expo-web-browser";
 import Toast from "react-native-toast-message";
+import * as Notifications from "expo-notifications";
 
 import { queryClient } from "@/lib/react-query";
 import { useAuthStore } from "@/store/auth-store";
@@ -28,12 +29,18 @@ Sentry.init({
   dsn: process.env.EXPO_PUBLIC_SENTRY_DSN,
   sendDefaultPii: true,
   enableLogs: true,
-  // replaysSessionSampleRate: 0.1,
-  // replaysOnErrorSampleRate: 1,
-  integrations: [
-    // Sentry.mobileReplayIntegration(),
-    Sentry.feedbackIntegration(),
-  ],
+  replaysSessionSampleRate: 0.1,
+  replaysOnErrorSampleRate: 1,
+  integrations: [Sentry.mobileReplayIntegration(), Sentry.feedbackIntegration()],
+});
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowBanner: true,
+    shouldShowList: true,
+    shouldPlaySound: true,
+    shouldSetBadge: true,
+  }),
 });
 
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;

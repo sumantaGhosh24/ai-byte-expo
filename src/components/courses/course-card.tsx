@@ -54,7 +54,9 @@ const CourseCard = memo(({ course }: CourseCardProps) => {
       return 0;
     }
 
-    return (course.enrollment.finishedLessons / course.lessonsCount) * 100;
+    return parseInt(
+      ((course.enrollment.finishedLessons / course.lessonsCount) * 100).toFixed(2)
+    );
   }, [course.enrollment, course.lessonsCount]);
 
   return (

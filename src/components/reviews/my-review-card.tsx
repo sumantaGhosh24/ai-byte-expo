@@ -3,6 +3,7 @@ import { View, Text } from "react-native";
 import { Image } from "expo-image";
 import Animated, { FadeInDown, LinearTransition } from "react-native-reanimated";
 import { Star, Tag, Trash2 } from "lucide-react-native";
+import { formatDistanceToNowStrict } from "date-fns";
 
 import { ReviewItem } from "@/types/review.type";
 
@@ -64,7 +65,7 @@ const MyReviewCard = memo(({ review, onDelete }: MyReviewCardProps) => {
               {review.message}
             </Text>
             <Text className="text-xs text-neutral-400">
-              {new Date(review.createdAt).toLocaleDateString()}
+              {formatDistanceToNowStrict(review.createdAt, { addSuffix: true })}
             </Text>
             <Button
               variant="danger"

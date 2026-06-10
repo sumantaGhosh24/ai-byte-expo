@@ -3,6 +3,7 @@ import { Text, View } from "react-native";
 import { Image } from "expo-image";
 import Animated, { FadeInDown, LinearTransition } from "react-native-reanimated";
 import { Star } from "lucide-react-native";
+import { formatDistanceToNowStrict } from "date-fns";
 
 import Card from "../ui/card";
 
@@ -53,7 +54,7 @@ const ReviewCard = memo(({ review }: ReviewCardProps) => {
                   </Text>
                   <Text className="text-xs text-neutral-400">•</Text>
                   <Text className="text-xs text-neutral-400">
-                    {new Date(review.createdAt).toLocaleDateString()}
+                    {formatDistanceToNowStrict(review.createdAt, { addSuffix: true })}
                   </Text>
                 </View>
               </View>

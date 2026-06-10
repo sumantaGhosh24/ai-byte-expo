@@ -531,7 +531,7 @@ const CourseScreen = () => {
             }
           />
         </View>
-        <View style={{ height: insets.bottom > 0 ? insets.bottom : 0 }} />
+        <View style={{ height: insets.bottom > 0 ? insets.bottom + 10 : 0 }} />
       </View>
     </View>
   );

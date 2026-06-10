@@ -123,13 +123,7 @@ const ReviewsScreen = () => {
 
   const renderHeader = useMemo(
     () => (
-      <View className={`gap-5 px-4 py-4 ${isTablet ? "mx-auto w-full max-w-3xl" : ""}`}>
-        <Animated.View entering={FadeInUp.duration(400)}>
-          <Text className="text-3xl font-bold text-neutral-900 dark:text-white">
-            Course Review
-          </Text>
-          <Text className="mt-1 text-neutral-500">Reviews of this course</Text>
-        </Animated.View>
+      <View className="mt-5 gap-6 px-4 pb-4 pt-2">
         <Animated.View entering={FadeInUp}>
           <Card>
             <View className="items-center gap-3">
@@ -217,7 +211,6 @@ const ReviewsScreen = () => {
       handleSubmit,
       isDark,
       isEnrolled,
-      isTablet,
       onSubmit,
       rating,
       reviews.length,
